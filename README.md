@@ -1,5 +1,8 @@
 # AliasGandiAngular
 
+[![CircleCI](https://circleci.com/gh/sylvainmetayer/alias-gandi-angular/tree/master.svg?style=svg&circle-token=92548e3df680d17a912aa5c43d94fcde7dd264cd)](https://circleci.com/gh/sylvainmetayer/alias-gandi-angular/tree/master)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ed6b3745-ef58-427f-b158-dc27d283436e/deploy-status)](https://app.netlify.com/sites/alias-gandi-angular/deploys)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.22.
 
 ## Development server
