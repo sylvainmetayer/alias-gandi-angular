@@ -4,13 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --live-reload --proxy-config proxy.config.json",
-    "build": "ng build",
+    "build": "ng build && npm run build:lambda",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "test-deploy": "netlify deploy",
     "nls": "netlify-lambda serve .netlify/functions",
-    "nlb": "netlify-lambda build .netlify/functions"
+    "build:lambda": "netlify-lambda build .netlify/functions"
   },
   "private": true,
   "dependencies": {
@@ -24,7 +24,8 @@
     "@angular/router": "~8.2.14",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "netlify-lambda": "^1.6.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.22",
@@ -43,7 +44,6 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
     "netlify-cli": "^2.27.0",
-    "netlify-lambda": "^1.6.3",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
