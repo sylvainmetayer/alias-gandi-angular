@@ -11,7 +11,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - `npm run nls` :  This will start the netlify lambda development server for serveless functions.
 - `npm start` : This will start the angular development server
 
-Their is a proxy where lambda are executed at `http://localhost:4200/api/*`. See `proxy.config.json` for details.
+Their is a proxy where lambdas are executed at `http://localhost:4200/api/*`. See `proxy.config.json` for details.
 
 ## Development server
 
