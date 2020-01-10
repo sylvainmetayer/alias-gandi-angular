@@ -1,13 +1,17 @@
 {
   "name": "alias-gandi-angular",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
+    "serve": "ng serve --proxy-config proxy.config.json",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm-run-all -p serve nls",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "test-deploy": "netlify deploy",
+    "nls": "netlify-lambda serve .netlify/functions",
+    "nlb": "netlify-lambda build .netlify/functions"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +23,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "npm-run-all": "^4.1.5",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
@@ -28,9 +33,9 @@
     "@angular/cli": "~8.3.22",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
-    "@types/node": "~8.9.4",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -39,6 +44,8 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "netlify-cli": "^2.27.0",
+    "netlify-lambda": "^1.6.3",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
