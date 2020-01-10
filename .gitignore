@@ -45,9 +45,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-.vscode/
 
 # Local Netlify folder
 .netlify
-# API netlify folder lambda
-/api
+/api/

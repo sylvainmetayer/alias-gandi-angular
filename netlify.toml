@@ -1,7 +1,8 @@
 [build]
   command = "npm run build"
   publish = "dist/alias-gandi-angular/"
-  functions = "api"
+  functions = "./api"
+  functionsSource = "./netlify/functions"
 
 [context.production]
   environment = { NODE_ENV = "production" }
