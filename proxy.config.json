@@ -1,11 +1,11 @@
 {
-  "/.netlify/functions/*": {
+  "/lambdas/*": {
     "target": "http://localhost:9000/",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
     "pathRewrite": {
-      "^/.netlify/functions/": ""
+      "^/lambdas/": ""
     }
   }
 }
