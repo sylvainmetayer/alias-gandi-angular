@@ -1,32 +1,34 @@
 <textarea>{{ mailbox | json }}</textarea>
 
-<table>
-  <thead>
-    <tr>
-      <th>Alias</th>
-      <th>Real Address</th>
-      <th>Delete</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let alias of mailbox.aliases">
-      <td>{{ alias }}</td>
-      <td>{{ mailbox.address }}</td>
-      <td>
-        <button (click)='delete(alias)'>Delete</button>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input [(ngModel)]="this.newAlias" type="text">
-      </td>
-      <td>{{ mailbox.address }}</td>
-      <td>{{ mailbox.domain }}</td>
-      <td>
-          <button (click)='add(newAlias)'>Add</button>
-        </td>
-    </tr>
-  </tbody>
-</table>
+
+<section>
+  <h1>Aliases for {{ mailbox.address }} of {{ mailbox.domain }}'s domain. </h1>
+  <table>
+      <thead>
+        <tr>
+          <th>Alias</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let alias of mailbox.aliases">
+          <td>{{ alias }}</td>
+          <td>
+            <button (click)='delete(alias)'>Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input [(ngModel)]="this.newAlias" type="text">
+          </td>
+          <td>
+              <button (click)='add(newAlias)'>Add</button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+
+</section>
+
 
 <hr />
