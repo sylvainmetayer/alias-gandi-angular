@@ -48,4 +48,5 @@ Thumbs.db
 
 # Local Netlify folder
 .netlify
-/lambdas
+.env
+/api/

@@ -1,10 +1,15 @@
 [build]
   command = "npm run build"
   publish = "dist/alias-gandi-angular/"
-  functions = "lambdas"
+  functions = "api"
 
 [context.production]
   environment = { NODE_ENV = "production" }
 
 [context.deploy-preview]
     environment = { NODE_ENV = "development" }
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

@@ -1,11 +1,11 @@
 {
-  "/lambdas/*": {
+  "/api/*": {
     "target": "http://localhost:9000/",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
     "pathRewrite": {
-      "^/lambdas/": ""
+      "^/api/": ""
     }
   }
 }
