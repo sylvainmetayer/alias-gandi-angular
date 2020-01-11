@@ -1,6 +1,4 @@
-const dotenv = require('dotenv').config()
-
-export function handler (event, context, callback) {
+exports.handler = function (event, context, callback) {
   console.log(context);
   console.log(event);
   callback(null, {
