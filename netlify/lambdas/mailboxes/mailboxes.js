@@ -4,6 +4,10 @@ const fetch = require('node-fetch')
 const { API_HOST, API_VERSION, JWT_SECRET, API_KEY } = process.env;
 
 exports.handler = async (event, context) => {
+  let domain = event.path
+    .replace(/\/\.netlify\/functions\/[^/]*\//, '')
+    .replace("mailboxes", "")
+    .replace("/", "")
   if (event.httpMethod != "GET") {
     return { statusCode: 405, body: "Only GET authorized" };
   }
@@ -17,7 +21,7 @@ exports.handler = async (event, context) => {
     return { statusCode: 401, body: "Invalid token" };
   }
 
-  const url = "https://" + API_HOST + API_VERSION + '/domain/domains';
+  const url = "https://" + API_HOST + API_VERSION + '/email/mailboxes/' + domain;
   let options = {
     method: 'GET',
     headers: {
@@ -30,7 +34,7 @@ exports.handler = async (event, context) => {
     .then(data => {
       return ({
         statusCode: 200,
-        body: JSON.stringify(data.map(domain => domain.fqdn)),
+        body: JSON.stringify(data.map(mailbox => mailbox.id)),
         headers: {
           "Content-Type": "application/json"
         },
