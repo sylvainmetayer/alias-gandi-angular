@@ -21,7 +21,7 @@ export class GandiApiService {
   }
 
   getMailboxDetails(id: string): Observable<Mailbox> {
-    const wantedKeys = ['aliases', 'login', 'domain', 'address', 'id'];
+    const wantedKeys = ['aliases', 'domain', 'address', 'id'];
     const data = {
       aliases: [
         'test3'
