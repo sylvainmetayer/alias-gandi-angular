@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "test-deploy": "netlify deploy",
-    "nls": "netlify dev -f netlify/lambdas/",
+    "nls": "npm run postinstall && netlify dev -f netlify/lambdas/",
     "build:lambda": "netlify functions:build --src netlify/lambdas",
     "postinstall": "netlify-lambda install netlify/lambdas"
   },
