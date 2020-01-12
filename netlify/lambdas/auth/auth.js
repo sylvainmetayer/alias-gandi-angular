@@ -6,6 +6,8 @@ exports.handler = function (event, context, callback) {
     return callback(null, { statusCode: 405, body: "Only POST authorized" });
   }
 
+
+  console.log(event);
   const body = JSON.parse(event.body);
 
   if (!Object.keys(body).includes("password") || body.password != process.env.LOGIN_PASSWORD) {

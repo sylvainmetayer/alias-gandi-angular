@@ -7,6 +7,7 @@ import { DomainComponent } from './domain/domain.component';
 import { MailboxComponent } from './domain/mailbox/mailbox.component';
 import { DomainsComponent } from './domains/domains.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,9 @@ import { HomepageComponent } from './homepage/homepage.component';
     HomepageComponent
   ],
   imports: [
+    BrowserModule,
+    // import HttpClientModule after BrowserModule.
+    HttpClientModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule
