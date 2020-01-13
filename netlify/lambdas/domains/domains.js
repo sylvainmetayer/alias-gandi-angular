@@ -1,4 +1,13 @@
-require('dotenv').config()
+const dotenv = require('dotenv')
+const fs = require('fs')
+
+if (fs.existsSync(".env")) {
+  const envConfig = dotenv.parse(fs.readFileSync('.env'))
+  for (const k in envConfig) {
+    process.env[k] = envConfig[k]
+  }
+}
+
 const functions = require('../shared/functions');
 const fetch = require('node-fetch')
 const { API_HOST, API_VERSION, JWT_SECRET, API_KEY } = process.env;

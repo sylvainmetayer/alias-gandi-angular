@@ -1,4 +1,13 @@
-require('dotenv').config()
+const dotenv = require('dotenv')
+const fs = require('fs')
+
+if (fs.existsSync(".env")) {
+  const envConfig = dotenv.parse(fs.readFileSync('.env'))
+  for (const k in envConfig) {
+    process.env[k] = envConfig[k]
+  }
+}
+
 const jwt = require("jsonwebtoken");
 
 exports.handler = function (event, context, callback) {
@@ -6,10 +15,8 @@ exports.handler = function (event, context, callback) {
     return callback(null, { statusCode: 405, body: "Only POST authorized" });
   }
 
-
-  console.log(event);
   const body = JSON.parse(event.body);
-
+  console.log(process.env.LOGIN_PASSWORD, body.password);
   if (!Object.keys(body).includes("password") || body.password != process.env.LOGIN_PASSWORD) {
     return callback(null, { statusCode: 401, body: "Bad credentials" });
   }
