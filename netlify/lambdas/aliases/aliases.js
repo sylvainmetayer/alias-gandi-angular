@@ -1,7 +1,7 @@
 require('dotenv').config()
 const functions = require('../shared/functions');
 const fetch = require('node-fetch')
-const { API_HOST, API_VERSION, JWT_SECRET, API_KEY } = process.env;
+const { GANDI_API_HOST, GANDI_API_VERSION, JWT_SECRET, GANDI_API_KEY } = process.env;
 
 exports.handler = async (event, context) => {
   let [domain, mailboxId] = event.path
@@ -22,11 +22,11 @@ exports.handler = async (event, context) => {
   }
 
   const aliases = JSON.parse(event.body).aliases || []
-  const url = "https://" + API_HOST + API_VERSION + '/email/mailboxes/' + domain + "/" + mailboxId;
+  const url = "https://" + GANDI_API_HOST + GANDI_API_VERSION + '/email/mailboxes/' + domain + "/" + mailboxId;
   let options = {
     method: 'PATCH',
     headers: {
-      'Authorization': 'apiKey ' + API_KEY,
+      'Authorization': 'apiKey ' + GANDI_API_KEY,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
