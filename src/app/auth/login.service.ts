@@ -12,13 +12,15 @@ export interface LoginResponse {
   expires_in: string;
 }
 
+const LOCAL_STORAGE_KEY = 'token';
+
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
   private BASE_URL = '/api';
 
-  constructor(private client: HttpClient) {}
+  constructor(private client: HttpClient) { }
 
   isConnected: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -47,7 +49,7 @@ export class LoginService {
       )
       .subscribe(
         data => {
-          localStorage.setItem('token', data.access_token);
+          localStorage.setItem(LOCAL_STORAGE_KEY, data.access_token);
           this.token = data.access_token;
           loginObserver.next(true);
         },
@@ -65,7 +67,7 @@ export class LoginService {
 
   logout(): void {
     this.isConnected.next(false);
-    localStorage.removeItem('token');
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
   }
 
   getToken(): string {
@@ -75,6 +77,17 @@ export class LoginService {
   getAuthTokenPromise(): Promise<string | Error> {
     return new Promise((resolve, reject) => {
       this.token ? resolve(this.token) : reject();
+    });
+  }
+
+  reconnect(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const token = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (token) {
+        this.token = token;
+        this.isConnected.next(true);
+      }
+      resolve(true);
     });
   }
 }

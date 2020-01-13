@@ -1,6 +1,11 @@
 <nav>
   <a routerLink="/home" routerLinkActive="active">Accueil</a>
   <a routerLink="/domains" routerLinkActive="active">Domains emails aliases</a>
+  <a routerLink="/login" routerLinkActive="active">Login</a>
 </nav>
+
+<button (click)="logout()">
+  Se déconnecter
+</button>
 
 <router-outlet></router-outlet>
