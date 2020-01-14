@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test-deploy": "netlify deploy",
+    "deploy": "npm run postinstall && npm run build && netlify deploy",
     "nls": "npm run postinstall && netlify dev -f netlify/lambdas/",
     "build:lambda": "netlify functions:build --src netlify/lambdas",
     "postinstall": "netlify-lambda install netlify/lambdas"
