@@ -9,16 +9,16 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
   @ViewChild(NgForm, { static: true }) loginForm: NgForm;
 
   error = false;
 
   credentials: { password: string } = { password: null };
 
-  constructor(private loginService: LoginService,
-    private routerService: Router) {
-  }
+  constructor(
+    private loginService: LoginService,
+    private routerService: Router
+  ) {}
 
   ngOnInit() {
     this.loginForm.valueChanges.subscribe(() => {
@@ -28,18 +28,16 @@ export class LoginComponent implements OnInit {
 
   authenticate(): void {
     this.resetErrors();
-    this.loginService
-      .login(this.credentials.password)
-      .subscribe(
-        res => {
-          if (res) {
-            this.routerService.navigate(['/domains']);
-          }
-        },
-        err => {
-          this.error = true;
+    this.loginService.login(this.credentials.password).subscribe(
+      res => {
+        if (res) {
+          this.routerService.navigate(['/domains']);
         }
-      );
+      },
+      err => {
+        this.error = true;
+      }
+    );
   }
 
   private resetErrors() {

@@ -5,7 +5,7 @@ import { LoginService } from './login.service';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { UnauthorizedInterceptor} from './unauthorized-interceptor';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import {reconnectInitializer} from './initializer/reconnect-initializer';
 
 @NgModule({
