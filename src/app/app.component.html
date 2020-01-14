@@ -4,7 +4,7 @@
   <a routerLink="/login" routerLinkActive="active">Login</a>
 </nav>
 
-<button (click)="logout()">
+<button (click)="logout()" *ngIf="isLogged">
   Se déconnecter
 </button>
 

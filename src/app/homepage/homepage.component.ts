@@ -6,12 +6,6 @@ import { LoginService } from '../auth/login.service';
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.scss']
 })
-export class HomepageComponent implements OnInit {
-
-  constructor(private loginService: LoginService) { }
-
-  ngOnInit() {
-    this.loginService.login('test').subscribe(data => console.log(data));
-  }
+export class HomepageComponent {
 
 }
