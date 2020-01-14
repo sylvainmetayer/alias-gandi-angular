@@ -4,7 +4,7 @@ import { Mailbox } from '../domain/mailbox/mailbox';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 export interface AliasesResponse {
-  message: string
+  message: string;
 }
 
 @Injectable({
