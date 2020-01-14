@@ -13,10 +13,12 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate() {
+    // TODO https://stackoverflow.com/questions/42366316/using-behaviorsubject-in-auth-guards-canactivate
     return this.loginService.isConnected.pipe<boolean>(
       map(isLogged => {
         console.log(isLogged);
-        if (!isLogged && !this.routerService.isActive('/login', true)) {
+        console.log(this.loginService.isConnected);
+        if (!isLogged && !this.routerService.isActive('/login', false)) {
           this.routerService.navigate(['/login']);
         }
         return isLogged;
