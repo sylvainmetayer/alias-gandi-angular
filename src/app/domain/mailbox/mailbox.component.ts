@@ -11,21 +11,26 @@ export class MailboxComponent implements OnInit {
 
   @Input() mailBoxId: string;
 
+  @Input() domain: string;
+
   @Input() newAlias: string;
 
-  mailbox: Mailbox;
+  mailbox: null | Mailbox = null;
 
   constructor(private api: GandiApiService) { }
 
   ngOnInit() {
-    this.api.getMailboxDetails(this.mailBoxId).subscribe(mailbox => this.mailbox = mailbox);
+    this.api.getMailboxDetails(this.domain, this.mailBoxId).subscribe(mailbox => {
+      this.mailbox = mailbox;
+    });
     this.newAlias = this.generateId();
   }
 
   delete(alias: string) {
-    this.api.updateAliases(this.mailBoxId,
+    this.api.updateAliases(this.domain, this.mailBoxId,
       this.mailbox.aliases.filter(item => item !== alias)
     ).subscribe(result => {
+      console.log(result);
       if (!result) {
         alert('ERROR');
       } else {
@@ -35,7 +40,7 @@ export class MailboxComponent implements OnInit {
   }
 
   add(alias: string) {
-    this.api.updateAliases(this.mailBoxId,
+    this.api.updateAliases(this.domain, this.mailBoxId,
       this.mailbox.aliases.concat[alias]
     ).subscribe(result => {
       if (!result) {

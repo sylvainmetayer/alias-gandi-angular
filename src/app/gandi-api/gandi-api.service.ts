@@ -1,52 +1,145 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { Mailbox } from '../domain/mailbox/mailbox';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GandiApiService {
-  updateAliases(mailboxId: string, aliases: Array<string>): Observable<boolean> {
-    return of(true);
+
+  private BASE_URL = '/api';
+
+  constructor(private httpClient: HttpClient) { }
+
+  updateAliases(domain: string, mailboxId: string, aliases: Array<string>): Observable<boolean> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: {
+        aliases
+      }
+    };
+
+    const observer = new Subject<boolean>();
+
+    this.httpClient
+      .post<any>(
+        this.BASE_URL + `/aliases/${domain}/${mailboxId}`,
+        httpOptions
+      )
+      .subscribe(
+        data => {
+          console.log(data);
+          observer.next(data);
+        },
+        (err: HttpErrorResponse) => {
+          console.log(err);
+          observer.next(false);
+        },
+        () => {
+          observer.complete();
+        }
+      );
+
+    return observer;
   }
 
-  constructor() { }
-
   getDomains(): Observable<Array<string>> {
-    return of(['sylvainmetayer.fr']);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    const observer = new Subject<string[]>();
+
+    this.httpClient
+      .get<any>(
+        this.BASE_URL + '/domains',
+        httpOptions
+      )
+      .subscribe(
+        data => {
+          observer.next(data);
+        },
+        (err: HttpErrorResponse) => {
+          console.log(err);
+          observer.next([]);
+        },
+        () => {
+          observer.complete();
+        }
+      );
+
+    return observer;
   }
 
   getMailboxesIds(domain: string): Observable<Array<string>> {
-    return of(['id1', 'id2']);
-  }
-
-  getMailboxDetails(id: string): Observable<Mailbox> {
-    const wantedKeys = ['aliases', 'domain', 'address', 'id'];
-    const data = {
-      aliases: [
-        'test3'
-      ],
-      login: 'debug',
-      mailbox_type: 'standard',
-      responder: {
-        message: '',
-        enabled: false
-      },
-      domain: 'sylvainmetayer.fr',
-      quota_used: 9,
-      address: `${id}@sylvainmetayer.fr`,
-      href: 'https://api.gandi.net',
-      id
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
     };
 
-    // {aliases: [], id, address: 'debug@sylvainmetayer.fr', domain: 'sylvainmetayer.fr', login: 'debug'};
-    const filteredData = Object.keys(data)
-      .filter(key => wantedKeys.includes(key))
-      .reduce((obj, key) => {
-        obj[key] = data[key];
-        return obj;
-      }, {}) as Mailbox;
+    const observer = new Subject<string[]>();
 
-    return of(filteredData);
+    this.httpClient
+      .get<any>(
+        this.BASE_URL + '/mailboxes/' + domain,
+        httpOptions
+      )
+      .subscribe(
+        data => {
+          observer.next(data);
+        },
+        (err: HttpErrorResponse) => {
+          console.log(err);
+          observer.next([]);
+        },
+        () => {
+          observer.complete();
+        }
+      );
+    return observer;
+  }
+
+  getMailboxDetails(domain: string, id: string): Observable<Mailbox | null> {
+    const wantedKeys = ['aliases', 'domain', 'address', 'id'];
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    const observer = new Subject<Mailbox>();
+
+    this.httpClient
+      .get<any>(
+        this.BASE_URL + `/mailbox/${domain}/${id}`,
+        httpOptions
+      )
+      .subscribe(
+        data => {
+          console.log(data);
+          const filteredData = Object.keys(data)
+            .filter(key => wantedKeys.includes(key))
+            .reduce((obj, key) => {
+              obj[key] = data[key];
+              return obj;
+            }, {}) as Mailbox || null;
+          observer.next(filteredData);
+        },
+        (err: HttpErrorResponse) => {
+          console.log(err);
+          observer.next(null);
+        },
+        () => {
+          observer.complete();
+        }
+      );
+    return observer;
   }
 }
