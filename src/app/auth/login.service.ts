@@ -20,7 +20,7 @@ const LOCAL_STORAGE_KEY = 'token';
 export class LoginService {
   private BASE_URL = '/api';
 
-  constructor(private client: HttpClient) { }
+  constructor(private client: HttpClient) {}
 
   isConnected: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -49,9 +49,9 @@ export class LoginService {
       )
       .subscribe(
         data => {
+          loginObserver.next(true);
           localStorage.setItem(LOCAL_STORAGE_KEY, data.access_token);
           this.token = data.access_token;
-          loginObserver.next(true);
         },
         (err: HttpErrorResponse) => {
           console.log(err);
