@@ -8,7 +8,7 @@ if (fs.existsSync(".env")) {
   }
 }
 
-const functions = require('../shared/functions');
+const functions = require('./functions');
 const fetch = require('node-fetch')
 const { API_HOST, API_VERSION, JWT_SECRET, API_KEY } = process.env;
 
