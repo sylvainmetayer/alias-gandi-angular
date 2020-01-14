@@ -16,7 +16,6 @@ exports.handler = function (event, context, callback) {
   }
 
   const body = JSON.parse(event.body);
-  console.log(process.env.LOGIN_PASSWORD, body.password);
   if (!Object.keys(body).includes("password") || body.password != process.env.LOGIN_PASSWORD) {
     return callback(null, { statusCode: 401, body: "Bad credentials" });
   }

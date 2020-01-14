@@ -50,12 +50,14 @@ export class LoginService {
       .subscribe(
         data => {
           loginObserver.next(true);
+          this.isConnected.next(true);
           localStorage.setItem(LOCAL_STORAGE_KEY, data.access_token);
           this.token = data.access_token;
         },
         (err: HttpErrorResponse) => {
           console.log(err);
           loginObserver.next(false);
+          this.isConnected.next(false);
         },
         () => {
           loginObserver.complete();

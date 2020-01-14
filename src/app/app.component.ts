@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
 
   constructor(private loginService: LoginService, private router: Router) { }
-  title = 'alias-gandi-angular';
   isLogged: boolean;
 
   ngOnInit(): void {

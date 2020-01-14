@@ -7,5 +7,5 @@ import { LoginService } from '../auth/login.service';
   styleUrls: ['./homepage.component.scss']
 })
 export class HomepageComponent {
-
+  title = 'alias-gandi-angular';
 }
