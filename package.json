@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "deploy": "npm run postinstall && npm run build && netlify deploy",
     "nls": "npm run postinstall && netlify dev -f netlify/lambdas/",
-    "build:lambda": "netlify functions:build --src netlify/lambdas",
+    "build:lambda": "npm run postinstall && netlify functions:build --src netlify/lambdas",
     "postinstall": "netlify-lambda install netlify/lambdas"
   },
   "private": true,
