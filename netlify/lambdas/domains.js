@@ -1,13 +1,18 @@
-require('dotenv').config()
-const functions = require('../shared/functions');
+const dotenv = require('dotenv')
+const fs = require('fs')
+
+if (fs.existsSync(".env")) {
+  const envConfig = dotenv.parse(fs.readFileSync('.env'))
+  for (const k in envConfig) {
+    process.env[k] = envConfig[k]
+  }
+}
+
+const functions = require('./functions');
 const fetch = require('node-fetch')
 const { GANDI_API_HOST, GANDI_API_VERSION, JWT_SECRET, GANDI_API_KEY } = process.env;
 
 exports.handler = async (event, context) => {
-  let domain = event.path
-    .replace(/\/\.netlify\/functions\/[^/]*\//, '')
-    .replace("mailboxes", "")
-    .replace("/", "")
   if (event.httpMethod != "GET") {
     return { statusCode: 405, body: "Only GET authorized" };
   }
@@ -17,7 +22,7 @@ exports.handler = async (event, context) => {
     return { statusCode: 401, body: "Invalid token" };
   }
 
-  const url = "https://" + GANDI_API_HOST + GANDI_API_VERSION + '/email/mailboxes/' + domain;
+  const url = "https://" + GANDI_API_HOST + GANDI_API_VERSION + '/domain/domains';
   let options = {
     method: 'GET',
     headers: {
@@ -30,7 +35,7 @@ exports.handler = async (event, context) => {
     .then(data => {
       return ({
         statusCode: 200,
-        body: JSON.stringify(data.map(mailbox => mailbox.id)),
+        body: JSON.stringify(data.map(domain => domain.fqdn)),
         headers: {
           "Content-Type": "application/json"
         },

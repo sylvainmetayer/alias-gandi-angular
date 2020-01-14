@@ -1,25 +1,24 @@
-require('dotenv').config()
-const functions = require('../shared/functions');
+const dotenv = require('dotenv')
+const fs = require('fs')
+
+if (fs.existsSync(".env")) {
+  const envConfig = dotenv.parse(fs.readFileSync('.env'))
+  for (const k in envConfig) {
+    process.env[k] = envConfig[k]
+  }
+}
+
+const functions = require('./functions');
 const fetch = require('node-fetch')
 const { GANDI_API_HOST, GANDI_API_VERSION, JWT_SECRET, GANDI_API_KEY } = process.env;
-
-const wantedKeys = ['aliases', 'domain', 'address', 'id'];
-const formatData = (data) => {
-  return Object.keys(data)
-    .filter(key => wantedKeys.includes(key))
-    .reduce((obj, key) => {
-      obj[key] = data[key];
-      return obj;
-    }, {})
-}
 
 exports.handler = async (event, context) => {
   let [domain, mailboxId] = event.path
     .replace(/\/\.netlify\/functions\/[^/]*\//, '')
     .replace("mailbox", "").split('/');
 
-  if (event.httpMethod != "GET") {
-    return { statusCode: 405, body: "Only GET authorized" };
+  if (event.httpMethod != "POST") {
+    return { statusCode: 405, body: "Only POST authorized" };
   }
 
   if (domain === undefined || mailboxId === undefined) {
@@ -31,12 +30,17 @@ exports.handler = async (event, context) => {
     return { statusCode: 401, body: "Invalid token" };
   }
 
+  const aliases = JSON.parse(event.body).aliases || []
   const url = "https://" + GANDI_API_HOST + GANDI_API_VERSION + '/email/mailboxes/' + domain + "/" + mailboxId;
   let options = {
-    method: 'GET',
+    method: 'PATCH',
     headers: {
       'Authorization': 'apiKey ' + GANDI_API_KEY,
-    }
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "aliases": aliases
+    })
   }
 
   return fetch(url, options)
@@ -44,10 +48,13 @@ exports.handler = async (event, context) => {
     .then(data => {
       return ({
         statusCode: 200,
-        body: JSON.stringify(formatData(data)),
+        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json"
         },
       })
+    }).catch(err => {
+      console.error(err);
+      return { statusCode: err.statusCode || 500, body: "An error occured" }
     });
 }

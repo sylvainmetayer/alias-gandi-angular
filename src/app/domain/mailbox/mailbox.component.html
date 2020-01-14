@@ -1,9 +1,11 @@
-<hr />
-<textarea>{{ mailbox | json }}</textarea>
+<ng-container *ngIf='mailbox != null'>
 
-<section>
-  <h1>Aliases for {{ mailbox.address }}</h1>
-  <table>
+  <hr />
+  <textarea>{{ mailbox | json }}</textarea>
+
+  <section>
+    <h1>Aliases for {{ mailbox.address }}</h1>
+    <table>
       <thead>
         <tr>
           <th>Alias</th>
@@ -22,10 +24,10 @@
             <input [(ngModel)]="this.newAlias" type="text">
           </td>
           <td>
-              <button (click)='add(newAlias)'>Add</button>
-            </td>
+            <button (click)='add(newAlias)'>Add</button>
+          </td>
         </tr>
       </tbody>
     </table>
-
-</section>
+  </section>
+</ng-container>

@@ -1,4 +1,13 @@
-require('dotenv').config()
+const dotenv = require('dotenv')
+const fs = require('fs')
+
+if (fs.existsSync(".env")) {
+  const envConfig = dotenv.parse(fs.readFileSync('.env'))
+  for (const k in envConfig) {
+    process.env[k] = envConfig[k]
+  }
+}
+
 const jwt = require("jsonwebtoken");
 
 exports.handler = function (event, context, callback) {
@@ -7,7 +16,6 @@ exports.handler = function (event, context, callback) {
   }
 
   const body = JSON.parse(event.body);
-
   if (!Object.keys(body).includes("password") || body.password != process.env.LOGIN_PASSWORD) {
     return callback(null, { statusCode: 401, body: "Bad credentials" });
   }

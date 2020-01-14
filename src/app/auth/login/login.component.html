@@ -1,0 +1,13 @@
+<form #loginForm="ngForm">
+
+  <p *ngIf="error">
+    Identifiants invalide
+  </p>
+
+  <input type="password" name="password" placeholder="Password" [(ngModel)]="credentials.password" required>
+
+  <button type="submit" (click)="authenticate()" [disabled]="loginForm.invalid">
+    Se connecter
+  </button>
+
+</form>
