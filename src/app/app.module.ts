@@ -9,6 +9,12 @@ import { MailboxComponent } from './domain/mailbox/mailbox.component';
 import { DomainsComponent } from './domains/domains.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -19,13 +25,18 @@ import { HttpClientModule } from '@angular/common/http';
     HomepageComponent
   ],
   imports: [
+    MatProgressBarModule,
+    MatCardModule,
+    MatExpansionModule,
+    MatSelectModule,
     AuthModule,
     BrowserModule,
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
     FormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
