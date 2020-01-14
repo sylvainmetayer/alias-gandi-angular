@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { GandiApiService } from '../gandi-api/gandi-api.service';
 
 @Component({
@@ -6,18 +6,28 @@ import { GandiApiService } from '../gandi-api/gandi-api.service';
   templateUrl: './domain.component.html',
   styleUrls: ['./domain.component.scss']
 })
-export class DomainComponent implements OnInit {
-
-  @Input() domain: string;
-
-  mailboxesIds: Array<string> = [];
+export class DomainComponent implements OnInit, OnChanges {
 
   constructor(private api: GandiApiService) { }
 
-  ngOnInit() {
+  @Input() domain: string;
+
+  mailboxesIds: Array<string>;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.domain.currentValue !== changes.domain.previousValue) {
+      this.updateMailboxesIds();
+    }
+  }
+
+  private updateMailboxesIds() {
+    this.mailboxesIds = [];
     this.api.getMailboxesIds(this.domain).subscribe((ids => {
       this.mailboxesIds = ids;
     }));
+  }
+
+  ngOnInit() {
+    this.updateMailboxesIds();
   }
 
 }
