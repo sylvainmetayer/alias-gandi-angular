@@ -10,12 +10,15 @@ export class DomainsComponent implements OnInit {
 
   domains: Array<string>;
 
+  selectedDomain: string;
+
   constructor(private api: GandiApiService) { }
 
   ngOnInit(): void {
     this.api.getDomains().subscribe((domains) => {
       this.domains = domains;
     });
+    this.selectedDomain = null;
   }
 
 }

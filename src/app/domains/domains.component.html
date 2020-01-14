@@ -1,3 +1,9 @@
-<div *ngFor="let item of domains">
-  <app-domain domain="{{item}}"></app-domain>
-</div>
+<form>
+  <label for="selctedDomain"></label>
+  <select [(ngModel)]="selectedDomain" name="selectedDomain" id="selectedDomain">
+    <option *ngFor="let item of domains" value="{{ item }}"> {{ item }} </option>
+  </select>
+
+</form>
+
+<app-domain *ngIf="selectedDomain != null" domain="{{selectedDomain}}"></app-domain>

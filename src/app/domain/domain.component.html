@@ -1,4 +1,9 @@
 <h1>Aliases for {{ domain }}</h1>
+
+<div *ngIf="mailboxesIds.length === 0" >
+  Their is no mailbox associated to this domain.
+</div>
+
 <div *ngFor="let id of mailboxesIds">
   <app-mailbox mailBoxId={{id}} domain={{domain}}></app-mailbox>
 </div>

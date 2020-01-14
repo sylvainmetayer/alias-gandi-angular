@@ -10,7 +10,7 @@ export class DomainComponent implements OnInit {
 
   @Input() domain: string;
 
-  mailboxesIds: Array<string>;
+  mailboxesIds: Array<string> = [];
 
   constructor(private api: GandiApiService) { }
 

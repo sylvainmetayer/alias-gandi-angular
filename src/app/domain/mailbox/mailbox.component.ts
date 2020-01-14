@@ -41,7 +41,7 @@ export class MailboxComponent implements OnInit {
 
   add(alias: string) {
     this.api.updateAliases(this.domain, this.mailBoxId,
-      this.mailbox.aliases.concat[alias]
+      this.mailbox.aliases.concat([alias])
     ).subscribe(result => {
       if (!result) {
         alert('ERROR');

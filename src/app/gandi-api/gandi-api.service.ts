@@ -3,6 +3,10 @@ import { Observable, of, Subject } from 'rxjs';
 import { Mailbox } from '../domain/mailbox/mailbox';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
+export interface AliasesResponse {
+  message: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,23 +20,26 @@ export class GandiApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      }),
-      body: {
-        aliases
-      }
+      })
     };
 
     const observer = new Subject<boolean>();
 
+    const body = {
+      aliases
+    };
+
+    console.log(body);
     this.httpClient
-      .post<any>(
+      .post<AliasesResponse>(
         this.BASE_URL + `/aliases/${domain}/${mailboxId}`,
+        body,
         httpOptions
       )
       .subscribe(
-        data => {
+        (data: AliasesResponse) => {
           console.log(data);
-          observer.next(data);
+          observer.next(true);
         },
         (err: HttpErrorResponse) => {
           console.log(err);
