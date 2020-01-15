@@ -1,7 +1,9 @@
-<mat-progress-bar mode="indeterminate" *ngIf='mailbox === null'></mat-progress-bar>
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="mailbox === null"
+></mat-progress-bar>
 
-<ng-container *ngIf='mailbox != null'>
-
+<ng-container *ngIf="mailbox != null">
   <hr />
   <mat-accordion>
     <mat-expansion-panel>
@@ -10,7 +12,9 @@
           {{ mailbox.address }}
         </mat-panel-title>
         <mat-panel-description>
-          {{ mailbox.aliases.length }} alias(es)
+          <span matBadge="{{ mailbox.aliases.length }}" matBadgeOverlap="false">
+            Alias(es)
+          </span>
         </mat-panel-description>
       </mat-expansion-panel-header>
 
@@ -20,13 +24,11 @@
           <mat-card-title>{{ alias }}</mat-card-title>
         </mat-card-header>
         <mat-card-actions>
-          <button mat-button (click)='delete(alias)'>DELETE</button>
+          <button mat-button (click)="delete(alias)">DELETE</button>
         </mat-card-actions>
       </mat-card>
-      <input mapInput [(ngModel)]="this.newAlias" type="text">
-      <button mat-button (click)='add(newAlias)'>Add</button>
-
+      <input mapInput [(ngModel)]="this.newAlias" type="text" />
+      <button mat-button (click)="add(newAlias)">Add</button>
     </mat-expansion-panel>
-
   </mat-accordion>
 </ng-container>

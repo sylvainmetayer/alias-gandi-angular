@@ -25,6 +25,7 @@ const formatData = (data) => {
 exports.handler = async (event, context) => {
   let [domain, mailboxId] = event.path
     .replace(/\/\.netlify\/functions\/[^/]*\//, '')
+    .replace(/\/\api\//, '')
     .replace("mailbox", "").split('/');
 
   if (event.httpMethod != "GET") {

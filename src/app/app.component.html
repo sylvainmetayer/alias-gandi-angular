@@ -5,13 +5,12 @@
   <a [routerLink]="['/domains']">
     Manage mailboxes aliases
   </a>
-  <a [routerLink]="['/login']">
+  <a [routerLink]="['/login']" *ngIf="!isLogged">
     Login
   </a>
+  <a mat-button color="warn" (click)="logout()" *ngIf="isLogged">
+    Logout
+  </a>
 </nav>
-
-<button (click)="logout()" *ngIf="isLogged">
-  Se déconnecter
-</button>
 
 <router-outlet></router-outlet>

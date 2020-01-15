@@ -26,13 +26,15 @@ export class GandiApiService {
     const observer = new Subject<boolean>();
 
     const body = {
-      aliases
+      aliases,
+      domain,
+      mailboxId
     };
 
     console.log(body);
     this.httpClient
       .post<AliasesResponse>(
-        this.BASE_URL + `/aliases/${domain}/${mailboxId}`,
+        this.BASE_URL + `/aliases`,
         body,
         httpOptions
       )

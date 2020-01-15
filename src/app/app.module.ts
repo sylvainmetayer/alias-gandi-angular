@@ -15,6 +15,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     HomepageComponent
   ],
   imports: [
+    MatBadgeModule,
+    MatIconModule,
     MatProgressBarModule,
     MatCardModule,
     MatExpansionModule,

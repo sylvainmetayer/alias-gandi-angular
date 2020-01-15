@@ -13,16 +13,8 @@ const fetch = require('node-fetch')
 const { GANDI_API_HOST, GANDI_API_VERSION, JWT_SECRET, GANDI_API_KEY } = process.env;
 
 exports.handler = async (event, context) => {
-  let [domain, mailboxId] = event.path
-    .replace(/\/\.netlify\/functions\/[^/]*\//, '')
-    .replace("mailbox", "").split('/');
-
   if (event.httpMethod != "POST") {
     return { statusCode: 405, body: "Only POST authorized" };
-  }
-
-  if (domain === undefined || mailboxId === undefined) {
-    return { statusCode: 400, body: "Bad request" };
   }
 
   const token = functions.getToken(event.headers);
@@ -30,7 +22,14 @@ exports.handler = async (event, context) => {
     return { statusCode: 401, body: "Invalid token" };
   }
 
-  const aliases = JSON.parse(event.body).aliases || []
+  const body = JSON.parse(event.body);
+  const aliases = body.aliases || []
+  const {domain, mailboxId} = body;
+
+  if (domain === undefined || mailboxId === undefined) {
+    return { statusCode: 400, body: "Bad request" };
+  }
+
   const url = "https://" + GANDI_API_HOST + GANDI_API_VERSION + '/email/mailboxes/' + domain + "/" + mailboxId;
   let options = {
     method: 'PATCH',
