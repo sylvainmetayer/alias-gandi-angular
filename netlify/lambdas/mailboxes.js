@@ -15,8 +15,10 @@ const { GANDI_API_HOST, GANDI_API_VERSION, JWT_SECRET, GANDI_API_KEY } = process
 exports.handler = async (event, context) => {
   let domain = event.path
     .replace(/\/\.netlify\/functions\/[^/]*\//, '')
+    .replace(/\/\api\//, '')
     .replace("mailboxes", "")
     .replace("/", "")
+  console.log(domain);
   if (event.httpMethod != "GET") {
     return { statusCode: 405, body: "Only GET authorized" };
   }
