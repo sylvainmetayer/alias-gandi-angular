@@ -1,0 +1,10 @@
+section {
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 1px;
+    width: 60vw;
+    background-color: deeppink;
+  }
+}

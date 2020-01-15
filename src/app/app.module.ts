@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     HomepageComponent
   ],
   imports: [
+    MatInputModule,
+    FlexLayoutModule,
     MatBadgeModule,
     MatIconModule,
     MatProgressBarModule,

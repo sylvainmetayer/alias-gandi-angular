@@ -8,9 +8,18 @@
   <a [routerLink]="['/login']" *ngIf="!isLogged">
     Login
   </a>
-  <a mat-button color="warn" (click)="logout()" *ngIf="isLogged">
+  <a
+    mat-raised-button
+    color="accent"
+    color="warn"
+    (click)="logout()"
+    *ngIf="isLogged"
+  >
     Logout
   </a>
 </nav>
 
-<router-outlet></router-outlet>
+<div class="container">
+  <router-outlet ></router-outlet>
+</div>
+

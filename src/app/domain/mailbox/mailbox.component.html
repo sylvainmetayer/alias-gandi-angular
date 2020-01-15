@@ -3,8 +3,7 @@
   *ngIf="mailbox === null"
 ></mat-progress-bar>
 
-<ng-container *ngIf="mailbox != null">
-  <hr />
+<section *ngIf="mailbox != null">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -12,9 +11,7 @@
           {{ mailbox.address }}
         </mat-panel-title>
         <mat-panel-description>
-          <span matBadge="{{ mailbox.aliases.length }}" matBadgeOverlap="false">
-            Alias(es)
-          </span>
+          {{ mailbox.aliases.length }}  Alias(es)
         </mat-panel-description>
       </mat-expansion-panel-header>
 
@@ -31,4 +28,4 @@
       <button mat-button (click)="add(newAlias)">Add</button>
     </mat-expansion-panel>
   </mat-accordion>
-</ng-container>
+<section>
