@@ -37,6 +37,7 @@ exports.handler = async (event, context) => {
   return fetch(url, options)
     .then(response => response.json())
     .then(data => {
+      console.log(data);
       return ({
         statusCode: 200,
         body: JSON.stringify(data.map(mailbox => mailbox.id)),
