@@ -27,6 +27,7 @@ exports.handler = async (event, context) => {
   }
 
   const url = "https://" + GANDI_API_HOST + GANDI_API_VERSION + '/email/mailboxes/' + domain;
+  console.log(url);
   let options = {
     method: 'GET',
     headers: {
