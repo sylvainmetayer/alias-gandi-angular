@@ -18,6 +18,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     HomepageComponent
   ],
   imports: [
+    MatListModule,
+    MatToolbarModule,
     MatInputModule,
     FlexLayoutModule,
     MatBadgeModule,
@@ -48,4 +53,4 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

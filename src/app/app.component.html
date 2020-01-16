@@ -1,25 +1,27 @@
-<nav>
-  <a [routerLink]="['/home']">
-    Home
-  </a>
-  <a [routerLink]="['/domains']">
-    Manage mailboxes aliases
-  </a>
-  <a [routerLink]="['/login']" *ngIf="!isLogged">
-    Login
-  </a>
-  <a
-    mat-raised-button
-    color="accent"
-    color="warn"
-    (click)="logout()"
-    *ngIf="isLogged"
-  >
-    Logout
-  </a>
-</nav>
+<mat-toolbar>
+  <nav>
+    <a [routerLink]="['/home']">
+      <mat-icon aria-hidden="false" aria-label="Home icon">home</mat-icon>
+      Home
+    </a>
+    <a [routerLink]="['/domains']">
+      Manage mailboxes aliases
+    </a>
+    <a
+      mat-raised-button
+      color="accent"
+      color="warn"
+      (click)="logout()"
+      *ngIf="isLogged"
+    >
+      Logout
+    </a>
+  </nav>
+
+</mat-toolbar>
+
+
 
 <div class="container">
   <router-outlet ></router-outlet>
 </div>
-

@@ -6,6 +6,16 @@ import { LoginService } from '../auth/login.service';
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.scss']
 })
-export class HomepageComponent {
+export class HomepageComponent implements OnInit {
   title = 'alias-gandi-angular';
+
+  constructor(private loginService: LoginService) {}
+  isLogged: boolean;
+
+  ngOnInit(): void {
+    this.loginService.isConnected.subscribe(sub => {
+      this.isLogged = sub.valueOf();
+    });
+  }
+
 }

@@ -4,10 +4,15 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { DomainsComponent } from './domains/domains.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
+import { DomainComponent } from './domain/domain.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'domain/:domain',
+    component: DomainComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'home',
     component: HomepageComponent
@@ -23,4 +28,4 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -11,6 +11,7 @@ import { AuthInterceptor } from './interceptor/auth-interceptor';
 
 @NgModule({
   declarations: [LoginComponent],
+  exports: [LoginComponent],
   imports: [
     CommonModule,
     FormsModule

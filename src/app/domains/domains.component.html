@@ -1,12 +1,8 @@
-<form>
-  <mat-form-field>
-    <mat-label>Domain</mat-label>
-    <mat-select [(ngModel)]="selectedDomain" name="selectedDomain" id="selectedDomain">
-      <mat-option *ngFor="let item of domains" [value]="item">
-        {{item}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</form>
-<hr/>
-<app-domain *ngIf="selectedDomain != null" domain="{{selectedDomain}}"></app-domain>
+<mat-list>
+  <h1 mat-subheader>Domains</h1>
+  <mat-list-item *ngFor="let item of domains">
+    <p mat-line>
+      <button [routerLink]="['/domain', item]">{{ item }}</button>
+    </p>
+  </mat-list-item>
+</mat-list>
