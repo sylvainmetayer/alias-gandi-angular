@@ -1,18 +1,13 @@
-nav {
-  text-align: center;
-  width: 60vw;
-  margin: auto;
-  height: 20vw;
-  a {
-    padding-left: 20px;
-    mat-icon {
-      vertical-align: middle;
-    }
-  }
-}
-
 .container {
-  height: 40vw;
-  width: 60vw;
+  @media screen and (max-width: 640px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media screen and (min-width: 640px) {
+      height: 60vw;
+      width: 70vw;
+  }
+
   margin: auto;
 }

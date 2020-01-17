@@ -19,8 +19,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,8 @@ import { MatListModule } from '@angular/material/list';
     HomepageComponent
   ],
   imports: [
+    MatTableModule,
+    MatMenuModule,
     MatListModule,
     MatToolbarModule,
     MatInputModule,

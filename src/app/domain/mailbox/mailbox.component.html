@@ -15,22 +15,31 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <mat-card *ngFor="let alias of mailbox.aliases">
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{ alias }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-actions>
-          <button mat-button (click)="delete(alias)">
-            <mat-icon aria-hidden="false" aria-label="Delete"
-              >delete_forever</mat-icon
-            >
-          </button>
-        </mat-card-actions>
-      </mat-card>
+      <table>
+        <thead>
+          <tr>
+            <th>Alias</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let alias of mailbox.aliases">
+            <td>{{ alias }}</td>
+            <td>
+              <button mat-button (click)="delete(alias)">
+                <mat-icon aria-hidden="false" aria-label="Delete"
+                  >delete_forever</mat-icon
+                >
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </mat-expansion-panel>
-  </mat-accordion>
 
-  <input mapInput [(ngModel)]="this.newAlias" type="text" />
-  <button mat-button (click)="add(newAlias)">Add</button>
+    <mat-action-row>
+      <input mapInput [(ngModel)]="this.newAlias" type="text" />
+      <button mat-button (click)="add(newAlias)">Add</button>
+    </mat-action-row>
+  </mat-accordion>
 </section>

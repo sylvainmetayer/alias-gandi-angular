@@ -1,27 +1,44 @@
-<mat-toolbar>
-  <nav>
-    <a [routerLink]="['/home']">
-      <mat-icon aria-hidden="false" aria-label="Home icon">home</mat-icon>
-      Home
-    </a>
-    <a [routerLink]="['/domains']">
-      Manage mailboxes aliases
-    </a>
-    <a
-      mat-raised-button
-      color="accent"
-      color="warn"
-      (click)="logout()"
-      *ngIf="isLogged"
-    >
-      Logout
-    </a>
-  </nav>
-
-</mat-toolbar>
-
-
-
 <div class="container">
-  <router-outlet ></router-outlet>
+  <button
+    id="menuButton"
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    aria-label="Example icon-button with a menu"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <router-outlet></router-outlet>
 </div>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item [routerLink]="['/home']">
+    <mat-icon aria-hidden="false" aria-label="Home icon">home</mat-icon>
+    <span>Home</span>
+  </button>
+  <button mat-menu-item [routerLink]="['/domains']">
+    <span>Manage mailboxes aliases</span>
+  </button>
+  <button
+    mat-menu-item
+    mat-raised-button
+    color="accent"
+    color="warn"
+    (click)="logout()"
+    *ngIf="isLogged"
+  >
+    <span>Logout</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>dialpad</mat-icon>
+    <span>Redial</span>
+  </button>
+  <button mat-menu-item disabled>
+    <mat-icon>voicemail</mat-icon>
+    <span>Check voice mail</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>notifications_off</mat-icon>
+    <span>Disable alerts</span>
+  </button>
+</mat-menu>
