@@ -23,13 +23,8 @@ const formatData = (data) => {
 }
 
 exports.handler = async (event, context) => {
-  let { domain, mailboxId } = event.path
-    .replace(/\/\.netlify\/functions\/[^/]*\//, '')
-    .replace(/\/\api\//, '')
-    .replace("mailbox", "").split('/');
-
-  console.log(event.path);
-  console.log(`Looking for aliases on ${domain} for id : ${mailboxId}`);
+  const regex = /(?:\/\.netlify\/functions\/|\/api\/)mailbox\/(?<domain>.*)\/(?<mailboxId>.*)/gi;
+  const { groups: { domain, mailboxId } } = regex.exec(event.path)
 
   if (event.httpMethod != "GET") {
     return { statusCode: 405, body: "Only GET authorized" };
@@ -53,11 +48,9 @@ exports.handler = async (event, context) => {
     }
   }
 
-  console.log(`Sent request on ${url} with ${JSON.stringify(options)}`);
   return fetch(url, options)
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       return ({
         statusCode: 200,
         body: JSON.stringify(formatData(data)),

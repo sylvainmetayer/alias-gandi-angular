@@ -13,12 +13,9 @@ const fetch = require('node-fetch')
 const { GANDI_API_HOST, GANDI_API_VERSION, JWT_SECRET, GANDI_API_KEY } = process.env;
 
 exports.handler = async (event, context) => {
-  let domain = event.path
-    .replace(/\/\.netlify\/functions\/[^/]*\//, '')
-    .replace(/\/\api\//, '')
-    .replace("mailboxes", "")
-    .replace("/", "")
-  console.log(domain);
+  const regex = /(?:\/\.netlify\/functions\/|\/api\/)mailboxes\/(?<domain>.*)/gi;
+  const { groups: { domain } } = regex.exec(event.path)
+
   if (event.httpMethod != "GET") {
     return { statusCode: 405, body: "Only GET authorized" };
   }
@@ -29,7 +26,6 @@ exports.handler = async (event, context) => {
   }
 
   const url = "https://" + GANDI_API_HOST + GANDI_API_VERSION + '/email/mailboxes/' + domain;
-  console.log(url);
   let options = {
     method: 'GET',
     headers: {
@@ -40,7 +36,6 @@ exports.handler = async (event, context) => {
   return fetch(url, options)
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       return ({
         statusCode: 200,
         body: JSON.stringify(data.map(mailbox => mailbox.id)),
