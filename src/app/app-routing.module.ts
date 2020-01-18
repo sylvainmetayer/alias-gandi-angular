@@ -5,6 +5,7 @@ import { DomainsComponent } from './domains/domains.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
 import { DomainComponent } from './domain/domain.component';
+import { GandiComponent } from './auth/callback/gandi/gandi.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -16,6 +17,10 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomepageComponent
+  },
+  {
+    path: 'callback/gandi',
+    component: GandiComponent
   },
   {
     path: 'domains',

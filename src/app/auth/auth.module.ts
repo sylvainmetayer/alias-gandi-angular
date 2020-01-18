@@ -8,9 +8,10 @@ import { UnauthorizedInterceptor } from './unauthorized-interceptor';
 import { FormsModule } from '@angular/forms';
 import { reconnectInitializer } from './initializer/reconnect-initializer';
 import { AuthInterceptor } from './interceptor/auth-interceptor';
+import { GandiComponent } from './callback/gandi/gandi.component';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, GandiComponent],
   exports: [LoginComponent],
   imports: [
     CommonModule,
