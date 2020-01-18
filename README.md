@@ -34,6 +34,7 @@ Generate a JWT_SECRET with the following command : `cat /dev/urandom | tr -dc 'a
 - `npm ci` : Install dependencies
 - `npm run nls` :  This will start the netlify lambda development server for serveless functions.
 - `npm start` : This will start the angular development server
+- `npx oauth2-mock-server -p 8080` : will start a fake oauth2 ID provider to authenticate against during development.
 
 Their is a proxy where lambdas are executed at `http://localhost:4200/api/*`. See `proxy.config.json` for details.
 

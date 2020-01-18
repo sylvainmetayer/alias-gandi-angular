@@ -17,6 +17,7 @@ export interface OauthConfig {
   response_type: string;
   client_id: string;
   redirect_uri: string;
+  url: string;
 }
 
 const LOCAL_STORAGE_KEY = 'token';
@@ -100,7 +101,7 @@ export class LoginService {
   }
 
   oauthConfig(): Observable<OauthConfig[]> {
-    const configObserver = new Subject<OauthConfig[]>;
+    const configObserver = new Subject<OauthConfig[]>();
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -141,7 +142,7 @@ export class LoginService {
 
     this.client
       .post<LoginResponse>(
-        this.BASE_URL + '/gandi',
+        this.BASE_URL + '/token/gandi',
         {
           code
         },
