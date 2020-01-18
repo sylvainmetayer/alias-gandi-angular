@@ -1,8 +1,10 @@
 <h1>Email aliases</h1>
 
-<p>Login to manage your emails' aliases</p>
+<ng-container *ngIf="!isLogged">
+  <p>Login to manage your emails' aliases</p>
 
-<app-login *ngIf="!isLogged"></app-login>
+  <app-login></app-login>
+</ng-container>
 
 <div *ngIf="isLogged">
   Your are already logged in, go manage your aliases by clicking <a [routerLink]="['/domains']">here</a>.
