@@ -28,6 +28,8 @@ exports.handler = async (event, context) => {
     .replace(/\/\api\//, '')
     .replace("mailbox", "").split('/');
 
+  console.log(`Looking for aliases on ${domain} for id : ${mailboxId}`);
+
   if (event.httpMethod != "GET") {
     return { statusCode: 405, body: "Only GET authorized" };
   }
@@ -42,6 +44,7 @@ exports.handler = async (event, context) => {
   }
 
   const url = "https://" + GANDI_API_HOST + GANDI_API_VERSION + '/email/mailboxes/' + domain + "/" + mailboxId;
+
   let options = {
     method: 'GET',
     headers: {
@@ -49,9 +52,11 @@ exports.handler = async (event, context) => {
     }
   }
 
+  console.log(`Sent request on ${url} with ${JSON.stringify(options)}`);
   return fetch(url, options)
     .then(response => response.json())
     .then(data => {
+      console.log(data);
       return ({
         statusCode: 200,
         body: JSON.stringify(formatData(data)),
@@ -59,5 +64,5 @@ exports.handler = async (event, context) => {
           "Content-Type": "application/json"
         },
       })
-    });
+    }).catch(err => console.error(err));
 }

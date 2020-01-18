@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --live-reload --proxy-config proxy.config.json",
-    "build": "ng build && npm run build:lambda",
+    "prod": "ng serve --live-reload --prod --aot --proxy-config proxy.config.json",
+    "build": "ng build --prod && npm run build:lambda",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

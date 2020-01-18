@@ -30,7 +30,6 @@ export class MailboxComponent implements OnInit {
     this.api.updateAliases(this.domain, this.mailBoxId,
       this.mailbox.aliases.filter(item => item !== alias)
     ).subscribe(result => {
-      console.log(result);
       if (!result) {
         alert('ERROR');
       } else {

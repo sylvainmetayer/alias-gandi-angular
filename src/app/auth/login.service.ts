@@ -55,7 +55,6 @@ export class LoginService {
           this.token = data.access_token;
         },
         (err: HttpErrorResponse) => {
-          console.log(err);
           loginObserver.next(false);
           this.isConnected.next(false);
         },

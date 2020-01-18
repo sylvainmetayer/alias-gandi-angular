@@ -31,7 +31,6 @@ export class GandiApiService {
       mailboxId
     };
 
-    console.log(body);
     this.httpClient
       .post<AliasesResponse>(
         this.BASE_URL + `/aliases`,
@@ -40,11 +39,9 @@ export class GandiApiService {
       )
       .subscribe(
         (data: AliasesResponse) => {
-          console.log(data);
           observer.next(true);
         },
         (err: HttpErrorResponse) => {
-          console.log(err);
           observer.next(false);
         },
         () => {
@@ -74,7 +71,6 @@ export class GandiApiService {
           observer.next(data);
         },
         (err: HttpErrorResponse) => {
-          console.log(err);
           observer.next([]);
         },
         () => {
@@ -104,7 +100,6 @@ export class GandiApiService {
           observer.next(data);
         },
         (err: HttpErrorResponse) => {
-          console.log(err);
           observer.next([]);
         },
         () => {
@@ -132,7 +127,6 @@ export class GandiApiService {
       )
       .subscribe(
         data => {
-          console.log(data);
           const filteredData = Object.keys(data)
             .filter(key => wantedKeys.includes(key))
             .reduce((obj, key) => {
@@ -142,7 +136,6 @@ export class GandiApiService {
           observer.next(filteredData);
         },
         (err: HttpErrorResponse) => {
-          console.log(err);
           observer.next(null);
         },
         () => {

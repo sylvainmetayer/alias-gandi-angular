@@ -11,11 +11,11 @@
           {{ mailbox.address }}
         </mat-panel-title>
         <mat-panel-description>
-          {{ mailbox.aliases.length }} Alias(es)
+          {{ (mailbox.aliases)?.length }} Alias(es)
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <table>
+      <table *ngIf="(mailbox.aliases)?.length > 0">
         <thead>
           <tr>
             <th>Alias</th>
