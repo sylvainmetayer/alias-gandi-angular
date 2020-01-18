@@ -23,11 +23,12 @@ const formatData = (data) => {
 }
 
 exports.handler = async (event, context) => {
-  let [domain, mailboxId] = event.path
+  let { domain, mailboxId } = event.path
     .replace(/\/\.netlify\/functions\/[^/]*\//, '')
     .replace(/\/\api\//, '')
     .replace("mailbox", "").split('/');
 
+  console.log(event.path);
   console.log(`Looking for aliases on ${domain} for id : ${mailboxId}`);
 
   if (event.httpMethod != "GET") {
