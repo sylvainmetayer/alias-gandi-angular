@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../login.service';
+import { LoginService, OauthConfig } from '../login.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -15,14 +15,20 @@ export class LoginComponent implements OnInit {
 
   credentials: { password: string } = { password: null };
 
+  oauthProviders: OauthConfig[];
+
   constructor(
     private loginService: LoginService,
     private routerService: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loginForm.valueChanges.subscribe(() => {
       this.resetErrors();
+    });
+
+    this.loginService.oauthConfig().subscribe(conf => {
+      this.oauthProviders = conf;
     });
   }
 

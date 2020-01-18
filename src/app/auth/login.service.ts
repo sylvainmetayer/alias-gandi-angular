@@ -12,6 +12,13 @@ export interface LoginResponse {
   expires_in: string;
 }
 
+export interface OauthConfig {
+  name: string;
+  response_type: string;
+  client_id: string;
+  redirect_uri: string;
+}
+
 const LOCAL_STORAGE_KEY = 'token';
 
 @Injectable({
@@ -20,7 +27,7 @@ const LOCAL_STORAGE_KEY = 'token';
 export class LoginService {
   private BASE_URL = '/api';
 
-  constructor(private client: HttpClient) {}
+  constructor(private client: HttpClient) { }
 
   isConnected: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -90,5 +97,73 @@ export class LoginService {
       }
       resolve(true);
     });
+  }
+
+  oauthConfig(): Observable<OauthConfig[]> {
+    const configObserver = new Subject<OauthConfig[]>;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    this.client
+      .get<OauthConfig[]>(
+        this.BASE_URL + '/oauth',
+        httpOptions
+      )
+      .subscribe(
+        data => {
+          console.log(data);
+          configObserver.next(data);
+        },
+        (err: HttpErrorResponse) => {
+          console.log(err);
+          configObserver.next([]);
+        },
+        () => {
+          configObserver.complete();
+        }
+      );
+
+
+    return configObserver;
+  }
+
+  gandiLogin(code: string): Observable<boolean> {
+    const loginObserver = new Subject<boolean>();
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    this.client
+      .post<LoginResponse>(
+        this.BASE_URL + '/gandi',
+        {
+          code
+        },
+        httpOptions
+      )
+      .subscribe(
+        data => {
+          console.log(data);
+          loginObserver.next(true);
+          this.isConnected.next(true);
+          localStorage.setItem(LOCAL_STORAGE_KEY, data.access_token);
+          this.token = data.access_token;
+        },
+        (err: HttpErrorResponse) => {
+          loginObserver.next(false);
+          this.isConnected.next(false);
+        },
+        () => {
+          loginObserver.complete();
+        }
+      );
+
+    return loginObserver;
   }
 }
