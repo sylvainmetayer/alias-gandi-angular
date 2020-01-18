@@ -8,7 +8,7 @@ if (fs.existsSync(".env")) {
   }
 }
 
-const functions = require('./functions');
+const functions = require('./functions/auth');
 const fetch = require('node-fetch')
 const { GANDI_API_HOST, GANDI_API_VERSION, JWT_SECRET, GANDI_API_KEY } = process.env;
 
