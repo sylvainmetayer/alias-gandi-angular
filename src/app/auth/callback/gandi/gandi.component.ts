@@ -16,6 +16,7 @@ export class GandiComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.loginService.gandiLogin(params.code).subscribe(res => {
+        console.log(res);
         if (res) {
           this.router.navigate(['/domains']);
         } else {

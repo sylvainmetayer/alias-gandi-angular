@@ -150,7 +150,7 @@ export class LoginService {
       )
       .subscribe(
         data => {
-          console.log(data.access_token);
+          console.log(data);
           loginObserver.next(true);
           this.isConnected.next(true);
           localStorage.setItem(LOCAL_STORAGE_KEY, data.access_token);
