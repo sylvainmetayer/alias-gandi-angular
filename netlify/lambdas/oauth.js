@@ -13,7 +13,9 @@ exports.handler = function (event, context, callback) {
     return callback(null, { statusCode: 405, body: "Only GET authorized" });
   }
 
+  console.log(process.env.OAUTH_HOSTS);
   const oauthHosts = JSON.parse(process.env.OAUTH_HOSTS);
+  console.log(oauthHosts);
   callback(null, {
     statusCode: 200,
     headers: {
