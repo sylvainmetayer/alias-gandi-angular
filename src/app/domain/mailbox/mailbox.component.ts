@@ -21,6 +21,9 @@ export class MailboxComponent implements OnInit {
 
   ngOnInit() {
     this.api.getMailboxDetails(this.domain, this.mailBoxId).subscribe(mailbox => {
+      if (mailbox.aliases === undefined) {
+        mailbox.aliases = [];
+      }
       this.mailbox = mailbox;
     });
     this.newAlias = this.generateId();
