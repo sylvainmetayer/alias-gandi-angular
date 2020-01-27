@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
         this.api.getDomains().subscribe((domains) => {
           this.domains = domains;
         });
+      } else {
+        this.domains = [];
       }
     });
   }
