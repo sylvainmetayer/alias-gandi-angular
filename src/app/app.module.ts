@@ -24,6 +24,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { CopyClipboardDirective } from './copy-clipboard.directive';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { environment } from '../environments/environment';
     DomainComponent,
     MailboxComponent,
     DomainsComponent,
-    HomepageComponent
+    HomepageComponent,
+    CopyClipboardDirective
   ],
   imports: [
     MatTableModule,

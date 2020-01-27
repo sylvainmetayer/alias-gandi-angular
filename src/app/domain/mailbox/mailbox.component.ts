@@ -41,6 +41,10 @@ export class MailboxComponent implements OnInit {
     });
   }
 
+  getAliasEmail(alias: string) {
+    return `${alias}@${this.domain}`;
+  }
+
   add(alias: string) {
     this.api.updateAliases(this.domain, this.mailBoxId,
       this.mailbox.aliases.concat([alias])

@@ -19,6 +19,7 @@
         <thead>
           <tr>
             <th>Alias</th>
+            <th>Copy</th>
             <th>Delete</th>
           </tr>
         </thead>
@@ -26,7 +27,14 @@
           <tr *ngFor="let alias of mailbox.aliases">
             <td>{{ alias }}</td>
             <td>
-              <button mat-button (click)="delete(alias)">
+              <button mat-button [appCopyClipboard]="getAliasEmail(alias)">
+                <mat-icon aria-hidden="false" aria-label="Delete"
+                  >file_copy</mat-icon
+                >
+              </button>
+            </td>
+            <td>
+              <button mat-button (dblclick)="delete(alias)">
                 <mat-icon aria-hidden="false" aria-label="Delete"
                   >delete_forever</mat-icon
                 >
