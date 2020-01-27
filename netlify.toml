@@ -20,12 +20,8 @@ to = "/index.html"
 status = 200
 
 [template.environment]
-# Gandi API. Get it here : https://docs.gandi.net/fr/noms_domaine/utilisateurs_avances/api.html
-GANDI_API_KEY = 'YOUR_API_KEY'
-# A secret for your JWT Token. >= 32 chars.
-JWT_SECRET = 'YOUR_JWT_SECRET'
-# Your password to login to the application.
-LOGIN_PASSWORD = 'YOUR_LOGIN_PASSWORD'
-# Gandi API settings, leave unchanged.
-GANDI_API_HOST = 'api.gandi.net'
-GANDI_API_VERSION = '/v5'
+  GANDI_API_KEY = "YOUR_API_KEY"
+  GANDI_API_HOST = "api.gandi.net"
+  GANDI_API_VERSION = "/v5"
+  JWT_SECRET = "YOUR_JWT_SECRET"
+  LOGIN_PASSWORD = "YOUR_LOGIN_PASSWORD"
