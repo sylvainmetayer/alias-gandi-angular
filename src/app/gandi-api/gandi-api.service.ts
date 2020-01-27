@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { Mailbox } from '../domain/mailbox/mailbox';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 export interface AliasesResponse {
   message: string;
@@ -14,15 +15,16 @@ export class GandiApiService {
 
   private BASE_URL = '/api';
 
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
+
   constructor(private httpClient: HttpClient) { }
 
   updateAliases(domain: string, mailboxId: string, aliases: Array<string>): Observable<boolean> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
     const observer = new Subject<boolean>();
 
     const body = {
@@ -35,7 +37,7 @@ export class GandiApiService {
       .post<AliasesResponse>(
         this.BASE_URL + `/aliases`,
         body,
-        httpOptions
+        this.httpOptions
       )
       .subscribe(
         (data: AliasesResponse) => {
@@ -53,95 +55,38 @@ export class GandiApiService {
   }
 
   getDomains(): Observable<Array<string>> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    const observer = new Subject<string[]>();
-
-    this.httpClient
-      .get<any>(
+    return this.httpClient
+      .get<Array<string>>(
         this.BASE_URL + '/domains',
-        httpOptions
-      )
-      .subscribe(
-        data => {
-          observer.next(data);
-        },
-        (err: HttpErrorResponse) => {
-          observer.next([]);
-        },
-        () => {
-          observer.complete();
-        }
+        this.httpOptions
       );
-
-    return observer;
   }
 
   getMailboxesIds(domain: string): Observable<Array<string>> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    const observer = new Subject<string[]>();
-
-    this.httpClient
-      .get<any>(
+    return this.httpClient
+      .get<Array<string>>(
         this.BASE_URL + '/mailboxes/' + domain,
-        httpOptions
-      )
-      .subscribe(
-        data => {
-          observer.next(data);
-        },
-        (err: HttpErrorResponse) => {
-          observer.next([]);
-        },
-        () => {
-          observer.complete();
-        }
+        this.httpOptions
       );
-    return observer;
   }
 
   getMailboxDetails(domain: string, id: string): Observable<Mailbox | null> {
     const wantedKeys = ['aliases', 'domain', 'address', 'id'];
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    const observer = new Subject<Mailbox>();
-
-    this.httpClient
-      .get<any>(
+    return this.httpClient
+      .get(
         this.BASE_URL + `/mailbox/${domain}/${id}`,
-        httpOptions
+        this.httpOptions
       )
-      .subscribe(
-        data => {
+      .pipe(
+        map(data => {
           const filteredData = Object.keys(data)
             .filter(key => wantedKeys.includes(key))
             .reduce((obj, key) => {
               obj[key] = data[key];
               return obj;
             }, {}) as Mailbox || null;
-          observer.next(filteredData);
-        },
-        (err: HttpErrorResponse) => {
-          observer.next(null);
-        },
-        () => {
-          observer.complete();
-        }
-      );
-    return observer;
+          return filteredData;
+        }));
   }
 }
