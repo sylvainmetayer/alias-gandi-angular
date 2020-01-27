@@ -7,7 +7,7 @@
 
 If you have your domains on Gandi, manage your email aliases easily with this small web app. It will fetch all your domains, and list associated mailboxes so you can add aliases on it.
 
-This project was initially made to be available for all gandi users, using the [Gandi ID provider](https://docs.gandi.net/en/rest_api/oauth2/using_oauth2_server.html). Because the API is currently in beta, this is not possible, only the login flow is available, the associated `access_token` we get from here is not usable to get domains and emails data. You have to generate your own API key from [here](https://docs.gandi.net/fr/noms_domaine/utilisateurs_avances/api.html) and deploy your own version of this application if you want to use it. See [issue #4](#4) for details.
+This project was initially made to be available for all gandi users, using the [Gandi ID provider](https://docs.gandi.net/en/rest_api/oauth2/using_oauth2_server.html). Because the API is currently in beta, this is not possible, only the login flow is available, the associated `access_token` we get from here is not usable to get domains and emails data. You have to generate your own API key from [here](https://docs.gandi.net/fr/noms_domaine/utilisateurs_avances/api.html) and deploy your own version of this application if you want to use it. See ([issue #4][i4]) for details.
 
 However, you can easily host your own instance for free, thanks to [Netlify](https://netlify.com) and their serverless functions. The free tier offered should be more than enough for personal use. 
 
@@ -40,3 +40,5 @@ Their is a proxy where lambdas are executed at `http://localhost:4200/api/*`. Se
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.22.
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+[i4]: https://github.com/sylvainmetayer/alias-gandi-angular/issues/4
