@@ -1,20 +1,34 @@
 [build]
-  command = "npm run build"
-  publish = "dist/alias-gandi-angular/"
-  functions = "./api"
+command = "npm run build"
+publish = "dist/alias-gandi-angular/"
+functions = "./api"
 
 [context.production]
-  environment = { NODE_ENV = "production" }
+environment = { NODE_ENV = "production" }
 
 [context.deploy-preview]
-    environment = { NODE_ENV = "development" }
+environment = { NODE_ENV = "development" }
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200
+
+[template.environment]
+# Gandi API. Get it here : https://docs.gandi.net/fr/noms_domaine/utilisateurs_avances/api.html
+GANDI_API_KEY = 'YOUR_API_KEY'
+
+# A secret for your JWT Token. >= 32 chars.
+JWT_SECRET = 'YOUR_JWT_SECRET'
+
+# Your password to login to the application.
+LOGIN_PASSWORD = 'YOUR_LOGIN_PASSWORD'
+
+# Gandi API settings, leave unchanged.
+GANDI_API_HOST = 'api.gandi.net'
+GANDI_API_VERSION = '/v5'
