@@ -1,14 +1,8 @@
-const dotenv = require('dotenv')
-const fs = require('fs')
-
-if (fs.existsSync(".env")) {
-  const envConfig = dotenv.parse(fs.readFileSync('.env'))
-  for (const k in envConfig) {
-    process.env[k] = envConfig[k]
-  }
-}
-
+const functions = require("./functions");
 const jwt = require("jsonwebtoken");
+const providers = require("./providers");
+
+functions.loadEnv();
 
 exports.handler = function (event, context, callback) {
   if (event.httpMethod != "POST") {
@@ -16,13 +10,23 @@ exports.handler = function (event, context, callback) {
   }
 
   const body = JSON.parse(event.body);
+
   if (!Object.keys(body).includes("password") || body.password != process.env.LOGIN_PASSWORD) {
     return callback(null, { statusCode: 401, body: "Bad credentials" });
   }
 
-  const token = jwt.sign({ logged: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
+  if (!Object.keys(body).includes("provider")) {
+    return callback(null, { statusCode: 401, body: "Missing provider" });
+  }
 
-  // Valid password ! Let's generate a JWT token
+  const providerName = body.provider;
+
+  if (!providers.exists(providerName)) {
+    return callback(null, { statusCode: 401, body: `${providerName} does not exists` });
+  }
+
+  const token = jwt.sign({ logged: true, provider: providerName }, process.env.JWT_SECRET, { expiresIn: '1h' })
+
   callback(null, {
     statusCode: 200,
     headers: {

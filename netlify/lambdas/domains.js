@@ -1,14 +1,9 @@
-const dotenv = require('dotenv')
-const fs = require('fs')
+const functions = require("./functions");
+const jwt = require("jsonwebtoken");
+const providers = require("./providers");
 
-if (fs.existsSync(".env")) {
-  const envConfig = dotenv.parse(fs.readFileSync('.env'))
-  for (const k in envConfig) {
-    process.env[k] = envConfig[k]
-  }
-}
+functions.loadEnv();
 
-const functions = require('./functions');
 const fetch = require('node-fetch')
 const { GANDI_API_HOST, GANDI_API_VERSION, JWT_SECRET, GANDI_API_KEY } = process.env;
 
@@ -21,6 +16,16 @@ exports.handler = async (event, context) => {
   if (token === undefined || !functions.isValidToken(token, JWT_SECRET)) {
     return { statusCode: 401, body: "Invalid token" };
   }
+
+  const providerName = functions.getProviderName(token).provider;
+
+
+  if (!providers.exists(providerName)) {
+    return { statusCode: 401, body: `${providerName} does not exists` };
+  }
+
+  const provider = providers.load(providerName);
+  console.log(provider);
 
   const url = "https://" + GANDI_API_HOST + GANDI_API_VERSION + '/domain/domains';
   let options = {
