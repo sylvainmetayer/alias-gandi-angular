@@ -11,6 +11,10 @@ exports.handler = async (event, context) => {
     return { statusCode: 405, body: "Only GET authorized" };
   }
 
+  if (domain === undefined) {
+    return { statusCode: 400, body: "Bad request" };
+  }
+
   const token = functions.getToken(event.headers);
   if (!functions.isValidToken(token)) {
     return { statusCode: 401, body: "Invalid token" };
