@@ -1,12 +1,16 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const { JWT_SECRET } = process.env;
 
 module.exports = {
-  isValidToken: function (token, secret) {
+  isValidToken: function (token) {
+    if (token == undefined) {
+      return false;
+    }
     try {
-      jwt.verify(token, secret);
+      jwt.verify(token, JWT_SECRET);
     } catch (err) {
       return false;
     }

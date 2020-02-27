@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
   }
 
   const token = functions.getToken(event.headers);
-  if (token === undefined || !functions.isValidToken(token, JWT_SECRET)) {
+  if (token === undefined || !functions.isValidToken(token)) {
     return { statusCode: 401, body: "Invalid token" };
   }
 
