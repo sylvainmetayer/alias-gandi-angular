@@ -3,16 +3,6 @@ const providers = require("./providers");
 
 functions.loadEnv();
 
-const wantedKeys = ['aliases', 'domain', 'address', 'id'];
-const formatData = (data) => {
-  return Object.keys(data)
-    .filter(key => wantedKeys.includes(key))
-    .reduce((obj, key) => {
-      obj[key] = data[key];
-      return obj;
-    }, {})
-}
-
 exports.handler = async (event) => {
   const regex = /\/(?:.+)?mailbox\/(?<domain>.*)\/(?<mailboxId>.*)\/?/gi;
   const { groups: { domain, mailboxId } } = regex.exec(event.path)

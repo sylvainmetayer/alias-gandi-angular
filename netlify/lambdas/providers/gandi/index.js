@@ -91,5 +91,34 @@ module.exports = {
           body: JSON.stringify({ message: "An error occured" })
         }
       });
+  },
+  updateAliases: function (domain, mailboxId, aliases) {
+    let url = `${BASE_URL}/email/mailboxes/${domain}/${mailboxId}`;
+    let options = {
+      method: 'PATCH',
+      headers: {
+        ...getAuthorizationHeaders(),
+        ...{
+          'Content-Type': 'application/json'
+        }
+      },
+      body: JSON.stringify({
+        "aliases": aliases
+      })
+    }
+    return fetch(url, options)
+      .then(response => response.json())
+      .then(data => {
+        return ({
+          statusCode: 200,
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json"
+          },
+        })
+      }).catch(err => {
+        console.error(err);
+        return { statusCode: err.statusCode || 500, body: "An error occured" }
+      });
   }
 }
