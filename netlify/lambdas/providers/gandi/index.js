@@ -20,7 +20,7 @@ const getRequestsOptions = function (method = 'GET') {
 
 module.exports = {
   getDomains: function () {
-    let url = BASE_URL + '/domain/domains';
+    let url = `${BASE_URL}/domain/domains`;
     return fetch(url, getRequestsOptions())
       .then(response => response.json())
       .then((data) => {
@@ -39,5 +39,23 @@ module.exports = {
           body: JSON.stringify({ message: "An error occured" })
         }
       })
+  },
+  getMailboxes: function (domain) {
+    let url = `${BASE_URL}/email/mailboxes/${domain}`;
+    return fetch(url, getRequestsOptions())
+      .then(response => {
+        const json = response.json();
+        json.then(data => console.log(data));
+        return json;
+      })
+      .then(data => {
+        return ({
+          statusCode: 200,
+          body: JSON.stringify(data.map(mailbox => mailbox.id)),
+          headers: {
+            "Content-Type": "application/json"
+          },
+        })
+      });
   }
 }

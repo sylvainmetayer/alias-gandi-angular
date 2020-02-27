@@ -1,5 +1,4 @@
 const functions = require("./functions");
-const jwt = require("jsonwebtoken");
 const providers = require("./providers");
 
 functions.loadEnv();
