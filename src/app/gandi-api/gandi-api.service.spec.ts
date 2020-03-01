@@ -6,7 +6,7 @@ describe('GandiApiService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: GandiApiService = TestBed.get(GandiApiService);
+    const service: GandiApiService = TestBed.inject(GandiApiService);
     expect(service).toBeTruthy();
   });
 });
