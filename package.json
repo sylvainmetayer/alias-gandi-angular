@@ -4,15 +4,16 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --live-reload --proxy-config proxy.config.json",
-    "prod": "ng serve --live-reload --prod --aot --proxy-config proxy.config.json",
-    "build": "ng build --prod --aot && npm run build:lambda",
+    "prod": "ng serve --live-reload --prod --proxy-config proxy.config.json",
+    "build": "ng build --prod && npm run build:lambda",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "npm run postinstall && npm run build && netlify deploy",
-    "nls": "npm run postinstall && netlify dev -f netlify/lambdas/",
-    "build:lambda": "npm run postinstall && netlify functions:build --src netlify/lambdas",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points && netlify-lambda install netlify/lambdas"
+    "nls": "npm run build:netlify && netlify dev -f netlify/lambdas/",
+    "build:lambda": "npm run build:netlify && netlify functions:build --src netlify/lambdas",
+    "build:netlify": "netlify-lambda install netlify/lambdas",
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points && npm run build:netlify"
   },
   "private": true,
   "dependencies": {
