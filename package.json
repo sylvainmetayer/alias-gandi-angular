@@ -12,7 +12,7 @@
     "deploy": "npm run postinstall && npm run build && netlify deploy",
     "nls": "npm run postinstall && netlify dev -f netlify/lambdas/",
     "build:lambda": "npm run postinstall && netlify functions:build --src netlify/lambdas",
-    "postinstall": "netlify-lambda install netlify/lambdas"
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points && netlify-lambda install netlify/lambdas"
   },
   "private": true,
   "dependencies": {
@@ -21,17 +21,17 @@
     "@angular/common": "~9.0.4",
     "@angular/compiler": "~9.0.4",
     "@angular/core": "~9.0.4",
-    "@angular/flex-layout": "^8.0.0-beta.27",
+    "@angular/flex-layout": "^9.0.0-beta.27",
     "@angular/forms": "~9.0.4",
     "@angular/material": "^9.1.0",
     "@angular/platform-browser": "~9.0.4",
     "@angular/platform-browser-dynamic": "~9.0.4",
     "@angular/router": "~9.0.4",
     "@angular/service-worker": "~9.0.4",
-    "netlify-cli": "^2.27.0",
+    "netlify-cli": "^2.36.0",
     "netlify-lambda": "^1.6.3",
     "rxjs": "~6.5.4",
-    "tslib": "^1.10.0",
+    "tslib": "^1.11.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
@@ -49,8 +49,8 @@
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
-    "karma-jasmine-html-reporter": "^1.4.0",
-    "protractor": "~5.4.0",
+    "karma-jasmine-html-reporter": "^1.5.2",
+    "protractor": "^5.4.3",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.7.5"
