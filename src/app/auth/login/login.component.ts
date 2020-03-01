@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
-import { LoginService } from "../login.service";
-import { NgForm } from "@angular/forms";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from '../login.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   @ViewChild(NgForm, { static: true }) loginForm: NgForm;
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.credentials.password, this.credentials.provider).subscribe(
       res => {
         if (res) {
-          this.routerService.navigate(["/domains"]);
+          this.routerService.navigate(['/domains']);
         }
       },
       err => {
