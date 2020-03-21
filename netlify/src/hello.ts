@@ -11,7 +11,7 @@ const handler: Handler = (event: APIGatewayEvent, _context: Context, callback: C
   const response: HelloResponse = {
     statusCode: 200,
     body: JSON.stringify({
-      msg: `Hello World  ${Math.floor(Math.random() * 10)}`,
+      msg: `Hello  ${Math.floor(Math.random() * 10)}`,
       params,
     }),
   };

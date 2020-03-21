@@ -32,19 +32,16 @@ Generate a JWT_SECRET with the following command : `cat /dev/urandom | tr -dc 'a
 
 ## Start
 
+- `cp .env.dist .env && vim .env` : Setup environment variables. See section below
 - `npm ci` : Install dependencies
 - `npm ci --prefix netlify` : Install lambda dependencies
+- `npm run lambda:tsc:watch` : In a separate terminal, will allow to watch and compile `ts` files to the lambdas folder.
 - `npm run dev` :  This will start the netlify dev environment.
+- Open `localhost:3000`
 
-- (optional) `npm start` : This will start the angular development server
+You *do not* have to start the angular server as it will be automatically be started by `netlify-cli`. If you only want to edit angular part without netlify, run `npm start`
 
 Their is a proxy where lambdas are executed at `http://localhost:4200/api/*`. See `proxy.config.json` for details.
-
-## Further help
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.22.
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## Screenshots
 

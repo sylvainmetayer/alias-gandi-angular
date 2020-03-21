@@ -13,7 +13,8 @@
     "deploy": "npm run build && netlify deploy",
     "nlb": "netlify functions:build --src netlify/lambdas",
     "lambda:tsc": "npm run build --prefix netlify",
-    "lambda:tsc:watch": "npm start --prefix netlify"
+    "lambda:tsc:watch": "npm start --prefix netlify",
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
   },
   "private": true,
   "dependencies": {
