@@ -4,16 +4,16 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --live-reload --proxy-config proxy.config.json",
+    "dev": "netlify dev",
     "prod": "ng serve --live-reload --prod --proxy-config proxy.config.json",
-    "build": "ng build --prod && npm run build:lambda",
+    "build": "ng build --prod && npm ci --prefix netlify && npm run nlb",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "npm run postinstall && npm run build && netlify deploy",
-    "nls": "npm run build:netlify && netlify dev -f netlify/lambdas/",
-    "build:lambda": "npm run build:netlify && netlify functions:build --src netlify/lambdas",
-    "build:netlify": "netlify-lambda install netlify/lambdas",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points && npm run build:netlify"
+    "deploy": "npm run build && netlify deploy",
+    "nlb": "netlify functions:build --src netlify/lambdas",
+    "lambda:tsc": "npm run build --prefix netlify",
+    "lambda:tsc:watch": "npm start --prefix netlify"
   },
   "private": true,
   "dependencies": {
@@ -29,8 +29,7 @@
     "@angular/platform-browser-dynamic": "~9.0.4",
     "@angular/router": "~9.0.4",
     "@angular/service-worker": "~9.0.4",
-    "netlify-cli": "^2.36.0",
-    "netlify-lambda": "^1.6.3",
+    "netlify-cli": "^2.40.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.11.1",
     "zone.js": "~0.10.2"

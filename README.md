@@ -33,8 +33,10 @@ Generate a JWT_SECRET with the following command : `cat /dev/urandom | tr -dc 'a
 ## Start
 
 - `npm ci` : Install dependencies
-- `npm run nls` :  This will start the netlify lambda development server for serveless functions.
-- `npm start` : This will start the angular development server
+- `npm ci --prefix netlify` : Install lambda dependencies
+- `npm run dev` :  This will start the netlify dev environment.
+
+- (optional) `npm start` : This will start the angular development server
 
 Their is a proxy where lambdas are executed at `http://localhost:4200/api/*`. See `proxy.config.json` for details.
 
