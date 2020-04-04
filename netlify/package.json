@@ -1,12 +1,12 @@
 {
   "name": "@sylvainmetayer/alias-gandi-angular-lambda",
   "version": "1.0.0",
-  "description": "",
+  "description": "Netlify Lambda functions to handle email alias",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
     "start": "tsc --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
   },
   "author": "",
   "license": "MIT",
@@ -17,8 +17,12 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.9.0",
-    "@types/aws-lambda": "^8.10.46",
-    "@types/node": "^13.9.2",
+    "@types/aws-lambda": "^8.10.47",
+    "@types/jsonwebtoken": "^8.3.8",
+    "@types/node": "^13.9.8",
+    "jasmine": "^3.5.0",
+    "request": "^2.88.2",
+    "typed-rest-client": "^1.7.3",
     "typescript": "^3.8.3"
   }
 }

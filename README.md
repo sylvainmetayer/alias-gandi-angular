@@ -25,8 +25,6 @@ You'll have to configure a few environnements variable before you can access you
 |GANDI_API_KEY|Your API Key to interact with your Gandi account. [See here on how to get it](https://docs.gandi.net/fr/noms_domaine/utilisateurs_avances/api.html)|
 |JWT_SECRET|A >=32 char string, randomly generated to act as your JWT secret.|
 |LOGIN_PASSWORD|The password you'll use to login to the app.|
-|GANDI_API_HOST|The base URL of the Gandi API, leave it with default value.|
-|GANDI_API_VERSION|The version of the Gandi API, leave it with default value.|
 
 Generate a JWT_SECRET with the following command : `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`.
 

@@ -21,8 +21,6 @@ status = 200
 
 [template.environment]
 GANDI_API_KEY = "YOUR_API_KEY"
-GANDI_API_HOST = "api.gandi.net"
-GANDI_API_VERSION = "/v5"
 JWT_SECRET = "YOUR_JWT_SECRET"
 LOGIN_PASSWORD = "YOUR_LOGIN_PASSWORD"
 
