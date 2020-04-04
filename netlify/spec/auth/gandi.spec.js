@@ -4,7 +4,7 @@ const endpoint = 'http://localhost:3000/api';
 
 describe('Auth Spec', function () {
 
-  accessToken = null;
+  let accessToken = null;
 
   beforeAll(function (done) {
     // Get a valid token
@@ -12,9 +12,9 @@ describe('Auth Spec', function () {
       url: `${endpoint}/auth`,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ "password": "test", "provider": "gandi" })
-    }, function (error, response, body) {
-      body = JSON.parse(body);
-      accessToken = body.access_token;
+    }, function (_error, _response, body) {
+      let bodyJson = JSON.parse(body);
+      accessToken = bodyJson.access_token;
       done();
     });
   });
@@ -23,8 +23,7 @@ describe('Auth Spec', function () {
     request.get({
       url: `${endpoint}/domains`,
       headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${accessToken}` }
-    }, function (error, response, body) {
-      body = JSON.parse(body);
+    }, function (_error, response, _body) {
       expect(response.statusCode).toEqual(200);
       done();
     });
@@ -34,7 +33,7 @@ describe('Auth Spec', function () {
     request.get({
       url: `${endpoint}/mailboxes/sylvainmetayer.fr`,
       headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${accessToken}` }
-    }, function (error, response, body) {
+    }, function (_error, response, _body) {
       expect(response.statusCode).toEqual(200);
       done();
     });
@@ -44,13 +43,13 @@ describe('Auth Spec', function () {
     request.get({
       url: `${endpoint}/mailboxes/sylvainmetayer.fr`,
       headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${accessToken}` }
-    }, function (error, response, body) {
-      body = JSON.parse(body);
-      mailboxId = body[0];
+    }, function (_error, _response, body) {
+      const bodyJson = JSON.parse(body);
+      const mailboxId = bodyJson[0];
       request.get({
         url: `${endpoint}/mailbox/sylvainmetayer.fr/${mailboxId}`,
         headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${accessToken}` }
-      }, function (error, response, body) {
+      }, function (__error, response, __body) {
         expect(response.statusCode).toEqual(200);
         done();
       });

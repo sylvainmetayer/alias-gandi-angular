@@ -109,12 +109,10 @@ const exists = (provider: string | null): boolean => {
 const load = (provider: string): ProviderInterface => {
   const className = provider.charAt(0).toUpperCase() + provider.slice(1) + 'Provider';
   // Todo refacto this in a generic way
-
-  switch (className) {
-    case 'GandiProvider':
-      return new GandiProvider();
-    default: throw Error(`${className} Not defined`);
+  if (className === 'GandiProvider') {
+    return new GandiProvider();
   }
+  throw Error(`${className} Not defined`);
 };
 
 export { load, exists, ProviderInterface, Domain, Mailbox };
