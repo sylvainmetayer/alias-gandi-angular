@@ -2,6 +2,9 @@ const request = require('request');
 
 const endpoint = 'http://localhost:3000/api';
 
+/**
+ * These tests are highly coupled to the data.js sample to check returned data are valid.
+ */
 describe('Auth Spec', function () {
 
   let accessToken = null;
@@ -23,7 +26,8 @@ describe('Auth Spec', function () {
     request.get({
       url: `${endpoint}/domains`,
       headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${accessToken}` }
-    }, function (_error, response, _body) {
+    }, function (_error, response, body) {
+      expect(JSON.parse(body).length).toEqual(10)
       expect(response.statusCode).toEqual(200);
       done();
     });
@@ -31,41 +35,35 @@ describe('Auth Spec', function () {
 
   it('Should get mailboxes ID for a given domain', function (done) {
     request.get({
-      url: `${endpoint}/mailboxes/sylvainmetayer.fr`,
+      url: `${endpoint}/mailboxes/johnny.name`,
       headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${accessToken}` }
-    }, function (_error, response, _body) {
+    }, function (_error, response, body) {
+      console.log(body);
+      expect(JSON.parse(body).length).toEqual(3)
       expect(response.statusCode).toEqual(200);
       done();
     });
   });
 
-  it('Should get aliases for one mailbox of a given domain', function (done) {
+  it('Should get one mailbox of a given domain', function (done) {
     request.get({
-      url: `${endpoint}/mailboxes/sylvainmetayer.fr`,
+      url: `${endpoint}/mailbox/johnny.name/26f42662-0158-43fa-a9de-de05c9985c6b`,
       headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${accessToken}` }
-    }, function (_error, _response, body) {
-      const bodyJson = JSON.parse(body);
-      const mailboxId = bodyJson[0];
-      request.get({
-        url: `${endpoint}/mailbox/sylvainmetayer.fr/${mailboxId}`,
-        headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${accessToken}` }
-      }, function (__error, response, __body) {
-        expect(response.statusCode).toEqual(200);
-        done();
-      });
+    }, function (__error, response, body) {
+      expect(JSON.parse(body).aliases.length).toEqual(4);
+      expect(response.statusCode).toEqual(200);
+      done();
     });
   });
 
-
   it('Should update aliases for one mailbox of a given domain', function (done) {
-    // TODO Find a way to mock this without using a no-reply testing email.
     request.post({
-      url: `${endpoint}/aliases/sylvainmetayer.fr/e4df1649-9631-48af-b3fb-0a4a0fa0a5e5`,
+      url: `${endpoint}/aliases/johnny.name/26f42662-0158-43fa-a9de-de05c9985c6b`,
       headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${accessToken}` },
       body: JSON.stringify({
         aliases: ["5pgd5rvnias"],
-        domain: "sylvainmetayer.fr",
-        mailboxId: "e4df1649-9631-48af-b3fb-0a4a0fa0a5e5"
+        domain: "johnny.name",
+        mailboxId: "26f42662-0158-43fa-a9de-de05c9985c6b"
       })
     }, function (error, response, body) {
       expect(response.statusCode).toEqual(200);

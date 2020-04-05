@@ -115,4 +115,10 @@ const load = (provider: string): ProviderInterface => {
   throw Error(`${className} Not defined`);
 };
 
-export { load, exists, ProviderInterface, Domain, Mailbox };
+const BASE_DEBUG_URL = 'http://localhost:3000/api/mock';
+
+const isDebug = (): boolean => {
+  return process.env.DEBUG !== null;
+}
+
+export { load, exists, ProviderInterface, Domain, Mailbox, BASE_DEBUG_URL, isDebug };
