@@ -1,4 +1,3 @@
-const regex = /[a-z]*/i;
 const fs = require('fs');
 import { GandiProvider } from './gandi';
 
@@ -100,6 +99,7 @@ const exists = (provider: string | null): boolean => {
   if (provider === null) {
     return false;
   }
+  const regex = /[a-z]*/i;
   if (!provider.match(regex)) {
     return false;
   }
@@ -118,7 +118,7 @@ const load = (provider: string): ProviderInterface => {
 const BASE_DEBUG_URL = 'http://localhost:3000/api/mock';
 
 const isDebug = (): boolean => {
-  return process.env.DEBUG !== null;
+  return process.env.EMAIL_ALIAS_DEBUG !== null;
 }
 
 export { load, exists, ProviderInterface, Domain, Mailbox, BASE_DEBUG_URL, isDebug };

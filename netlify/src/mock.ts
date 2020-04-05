@@ -108,7 +108,7 @@ const gandiMock = (callback: Callback, method: string, body: string | null, doma
 
 // tslint:disable-next-line: variable-name
 const handler: Handler = async (event: APIGatewayEvent, _context: Context, callback: Callback) => {
-  if (!process.env.DEBUG) {
+  if (!process.env.EMAIL_ALIAS_DEBUG) {
     return callback(null, { statusCode: 400, body: 'No debug' });
   }
 
