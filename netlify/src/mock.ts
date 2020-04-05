@@ -49,7 +49,6 @@ const updateMailbox = (domain: string, id: string, aliases: string[]): MailboxRe
 };
 
 const gandiMock = (callback: Callback, method: string, body: string | null, domain: string, mailboxId: string | undefined) => {
-  console.log(domain, mailboxId, body?.toString(), method);
   // get all domains
   if (domain === 'domains' && method === 'GET') {
     return callback(null, {
