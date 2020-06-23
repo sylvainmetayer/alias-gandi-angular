@@ -29,7 +29,12 @@ class Mailbox {
   private label: string;
   private aliases: string[];
 
-  constructor(domain: Domain, label: string, id?: string | undefined, aliases?: string[] | undefined) {
+  constructor(
+    domain: Domain,
+    label: string,
+    id?: string | undefined,
+    aliases?: string[] | undefined
+  ) {
     this.domain = domain;
     if (id) {
       this.id = id;
@@ -107,7 +112,8 @@ const exists = (provider: string | null): boolean => {
 };
 
 const load = (provider: string): ProviderInterface => {
-  const className = provider.charAt(0).toUpperCase() + provider.slice(1) + 'Provider';
+  const className =
+    provider.charAt(0).toUpperCase() + provider.slice(1) + 'Provider';
   // Todo refacto this in a generic way
   if (className === 'GandiProvider') {
     return new GandiProvider();
@@ -118,7 +124,18 @@ const load = (provider: string): ProviderInterface => {
 const BASE_DEBUG_URL = 'http://localhost:3000/api/mock';
 
 const isDebug = (): boolean => {
-  return process.env.EMAIL_ALIAS_DEBUG !== null;
-}
+  return (
+    process.env.EMAIL_ALIAS_DEBUG !== undefined &&
+    parseInt(process.env.EMAIL_ALIAS_DEBUG, 10) === 1
+  );
+};
 
-export { load, exists, ProviderInterface, Domain, Mailbox, BASE_DEBUG_URL, isDebug };
+export {
+  load,
+  exists,
+  ProviderInterface,
+  Domain,
+  Mailbox,
+  BASE_DEBUG_URL,
+  isDebug,
+};

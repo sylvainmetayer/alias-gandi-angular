@@ -12,7 +12,7 @@ interface AliasBody {
 }
 
 // tslint:disable-next-line: variable-name
-const handler: Handler = async (event: APIGatewayEvent, _context: Context, callback: Callback) => {
+const handler: Handler = async (event: APIGatewayEvent,_context: Context, callback: Callback) => {
   if (event.httpMethod !== 'POST') {
     return callback(null, { statusCode: 405, body: 'Only POST authorized' });
   }
@@ -31,7 +31,10 @@ const handler: Handler = async (event: APIGatewayEvent, _context: Context, callb
 
   const providerName = token.getProviderName();
   if (!providerName || !providers.exists(providerName)) {
-    return callback(null, { statusCode: 401, body: `${providerName} does not exists` });
+    return callback(null, {
+      statusCode: 401,
+      body: `${providerName} does not exists`,
+    });
   }
 
   if (event.body === null) {
@@ -47,13 +50,19 @@ const handler: Handler = async (event: APIGatewayEvent, _context: Context, callb
 
   const provider = providers.load(providerName);
 
-  const mailbox = await provider.getMailbox(mailboxId, new providers.Domain(domain));
+  const mailbox = await provider.getMailbox(
+    mailboxId,
+    new providers.Domain(domain)
+  );
   console.log(mailbox);
   mailbox.setAliases(aliases);
   console.log(mailbox);
   const updated = await provider.updateAliases(mailbox);
 
-  return callback(null, { statusCode: 200, body: JSON.stringify({ message: 'OK', success: updated }) });
+  return callback(null, {
+    statusCode: 200,
+    body: JSON.stringify({ message: 'OK', success: updated }),
+  });
 };
 
 export { handler };
