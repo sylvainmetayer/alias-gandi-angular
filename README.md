@@ -25,24 +25,21 @@ You'll have to configure a few environnements variable before you can access you
 |GANDI_API_KEY|Your API Key to interact with your Gandi account. [See here on how to get it](https://docs.gandi.net/fr/noms_domaine/utilisateurs_avances/api.html)|
 |JWT_SECRET|A >=32 char string, randomly generated to act as your JWT secret.|
 |LOGIN_PASSWORD|The password you'll use to login to the app.|
-|GANDI_API_HOST|The base URL of the Gandi API, leave it with default value.|
-|GANDI_API_VERSION|The version of the Gandi API, leave it with default value.|
 
 Generate a JWT_SECRET with the following command : `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`.
 
 ## Start
 
+- `cp .env.dist .env && vim .env` : Setup environment variables. See section below
 - `npm ci` : Install dependencies
-- `npm run nls` :  This will start the netlify lambda development server for serveless functions.
-- `npm start` : This will start the angular development server
+- `npm ci --prefix netlify` : Install lambda dependencies
+- `npm run lambda:tsc:watch` : In a separate terminal, will allow to watch and compile `ts` files to the lambdas folder.
+- `npm run dev` :  This will start the netlify dev environment.
+- Open `localhost:3000`
+
+You *do not* have to start the angular server as it will be automatically be started by `netlify-cli`. If you only want to edit angular part without netlify, run `npm start`
 
 Their is a proxy where lambdas are executed at `http://localhost:4200/api/*`. See `proxy.config.json` for details.
-
-## Further help
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.22.
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## Screenshots
 

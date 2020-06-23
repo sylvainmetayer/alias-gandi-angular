@@ -13,7 +13,10 @@ export class LoginComponent implements OnInit {
 
   error = false;
 
-  credentials: { password: string } = { password: null };
+  credentials: { password: string; provider: string } = {
+    password: null,
+    provider: null
+  };
 
   constructor(
     private loginService: LoginService,
@@ -28,7 +31,7 @@ export class LoginComponent implements OnInit {
 
   authenticate(): void {
     this.resetErrors();
-    this.loginService.login(this.credentials.password).subscribe(
+    this.loginService.login(this.credentials.password, this.credentials.provider).subscribe(
       res => {
         if (res) {
           this.routerService.navigate(['/domains']);

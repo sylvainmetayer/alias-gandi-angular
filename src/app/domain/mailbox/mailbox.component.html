@@ -1,7 +1,4 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="mailbox === null"
-></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="mailbox === null"></mat-progress-bar>
 
 <section *ngIf="mailbox != null">
   <mat-accordion>
@@ -16,28 +13,25 @@
       </mat-expansion-panel-header>
 
       <table *ngIf="(mailbox.aliases)?.length > 0">
+        <caption>{{ mailbox.address }} aliases </caption>
         <thead>
           <tr>
-            <th>Alias</th>
-            <th>Copy</th>
-            <th>Delete</th>
+            <th scope="col">Alias</th>
+            <th scope="col">Copy</th>
+            <th scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let alias of mailbox.aliases">
-            <td>{{ alias }}</td>
+            <th scope="row">{{ alias }}</th>
             <td>
               <button mat-button [appCopyClipboard]="getAliasEmail(alias)">
-                <mat-icon aria-hidden="false" aria-label="Delete"
-                  >file_copy</mat-icon
-                >
+                <mat-icon aria-hidden="false" aria-label="Delete">file_copy</mat-icon>
               </button>
             </td>
             <td>
               <button mat-button (dblclick)="delete(alias)">
-                <mat-icon aria-hidden="false" aria-label="Delete"
-                  >delete_forever</mat-icon
-                >
+                <mat-icon aria-hidden="false" aria-label="Delete">delete_forever</mat-icon>
               </button>
             </td>
           </tr>

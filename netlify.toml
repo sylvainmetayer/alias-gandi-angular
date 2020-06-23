@@ -1,10 +1,10 @@
 [build]
 command = "npm run build"
 publish = "dist/alias-gandi-angular/"
-functions = "./api"
+functions = "./netlify/lambdas"
 
 [context.production]
-environment = { NODE_ENV = "development" }
+environment = { NODE_ENV = "production" }
 
 [context.deploy-preview]
 environment = { NODE_ENV = "development" }
@@ -20,8 +20,14 @@ to = "/index.html"
 status = 200
 
 [template.environment]
-  GANDI_API_KEY = "YOUR_API_KEY"
-  GANDI_API_HOST = "api.gandi.net"
-  GANDI_API_VERSION = "/v5"
-  JWT_SECRET = "YOUR_JWT_SECRET"
-  LOGIN_PASSWORD = "YOUR_LOGIN_PASSWORD"
+GANDI_API_KEY = "YOUR_API_KEY"
+JWT_SECRET = "YOUR_JWT_SECRET"
+LOGIN_PASSWORD = "YOUR_LOGIN_PASSWORD"
+
+[dev]
+command = "npx ng serve --live-reload" # Command to start your dev server
+port = 3000 # Port that the dev server will be listening on
+functionsPort = 34567 # port for functions server
+targetPort = 4200 # Port of target app server
+#publish = "dist" # If you use a _redirect file, provide the path to your static content folder
+autoLaunch = false

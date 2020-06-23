@@ -4,7 +4,7 @@ import {
   HttpHeaders,
   HttpErrorResponse
 } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 export interface LoginResponse {
   access_token: string;
@@ -26,11 +26,7 @@ export class LoginService {
 
   private token: string = null;
 
-  isLoggedIn(): Observable<boolean> {
-    return of(false);
-  }
-
-  login(password: string): Observable<boolean> {
+  login(password: string, provider: string): Observable<boolean> {
     const loginObserver = new Subject<boolean>();
 
     const httpOptions = {
@@ -43,7 +39,8 @@ export class LoginService {
       .post<LoginResponse>(
         this.BASE_URL + '/auth',
         {
-          password
+          password,
+          provider
         },
         httpOptions
       )
