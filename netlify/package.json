@@ -19,9 +19,7 @@
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.0",
-    "rxjs": "^6.5.5"
-  },
-  "devDependencies": {
+    "rxjs": "^6.5.5",
     "@babel/core": "^7.10.3",
     "@babel/preset-typescript": "^7.10.1",
     "@types/aws-lambda": "^8.10.56",
@@ -32,5 +30,6 @@
     "request": "^2.88.2",
     "typed-rest-client": "^1.7.3",
     "typescript": "^3.9.5"
-  }
+  },
+  "devDependencies": {}
 }
