@@ -1,8 +1,11 @@
 import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
 import { loadEnv } from './tools/functions';
-import * as providers from './providers';
+import { exists } from './providers/providers';
 import { DomainResponse, MailboxResponse } from './providers/gandi/interfaces';
-const fakeData = require('../data') as { domains: Array<DomainResponse>, mailboxes: Array<MailboxResponse> };
+const fakeData = require('../data') as {
+  domains: Array<DomainResponse>;
+  mailboxes: Array<MailboxResponse>;
+};
 import { writeFileSync } from 'fs';
 const { domains, mailboxes } = fakeData;
 
@@ -13,21 +16,33 @@ const getDomains = (): Array<DomainResponse> => {
 };
 
 const getMailboxes = (domain: string): Array<MailboxResponse> => {
-  return mailboxes.filter(mailbox => mailbox.domain === domain);
+  return mailboxes.filter((mailbox) => mailbox.domain === domain);
 };
 
-const getMailbox = (domain: string, id: string): MailboxResponse | undefined => {
-  const mailbox = mailboxes.find(item => item.domain === domain && item.id === id);
+const getMailbox = (
+  domain: string,
+  id: string
+): MailboxResponse | undefined => {
+  const mailbox = mailboxes.find(
+    (item) => item.domain === domain && item.id === id
+  );
   return mailbox;
 };
 
-
-const updateMailbox = (domain: string, id: string, aliases: string[]): MailboxResponse | null => {
-  const index = mailboxes.findIndex(item => item.domain === domain && item.id === id);
+const updateMailbox = (
+  domain: string,
+  id: string,
+  aliases: string[]
+): MailboxResponse | null => {
+  const index = mailboxes.findIndex(
+    (item) => item.domain === domain && item.id === id
+  );
   if (index === -1) {
     return null;
   }
-  const mailbox = mailboxes.find(item => item.domain === domain && item.id === id);
+  const mailbox = mailboxes.find(
+    (item) => item.domain === domain && item.id === id
+  );
   if (!mailbox) {
     return null;
   }
@@ -39,23 +54,32 @@ const updateMailbox = (domain: string, id: string, aliases: string[]): MailboxRe
   // Update data.js file
   mailboxes[index] = mailbox;
   const filename = '../data.js';
-  writeFileSync(filename, `module.exports = {
+  writeFileSync(
+    filename,
+    `module.exports = {
   domains: ${JSON.stringify(domains)},
   mailboxes: ${JSON.stringify(mailboxes)}
 };
-`);
+`
+  );
 
   return mailbox;
 };
 
-const gandiMock = (callback: Callback, method: string, body: string | null, domain: string, mailboxId: string | undefined) => {
+const gandiMock = (
+  callback: Callback,
+  method: string,
+  body: string | null,
+  domain: string,
+  mailboxId: string | undefined
+) => {
   // get all domains
   if (domain === 'domains' && method === 'GET') {
     return callback(null, {
       statusCode: 200,
       body: JSON.stringify(getDomains()),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
     });
   }
@@ -65,9 +89,9 @@ const gandiMock = (callback: Callback, method: string, body: string | null, doma
     return callback(null, {
       statusCode: 200,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(getMailboxes(domain))
+      body: JSON.stringify(getMailboxes(domain)),
     });
   }
 
@@ -76,9 +100,11 @@ const gandiMock = (callback: Callback, method: string, body: string | null, doma
     return callback(null, {
       statusCode: 200,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updateMailbox(domain, mailboxId, JSON.parse(body).aliases))
+      body: JSON.stringify(
+        updateMailbox(domain, mailboxId, JSON.parse(body).aliases)
+      ),
     });
   }
 
@@ -88,26 +114,34 @@ const gandiMock = (callback: Callback, method: string, body: string | null, doma
       return callback(null, {
         statusCode: 404,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ msg: 'not found' })
+        body: JSON.stringify({ msg: 'not found' }),
       });
     }
     // We want one mailboxe specifically
     return callback(null, {
       statusCode: 200,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(mailBox)
+      body: JSON.stringify(mailBox),
     });
   }
 
-  return callback(null, { statusCode: 500, body: 'Gandi Mock API Error : unknown case' });
+  return callback(null, {
+    statusCode: 500,
+    body: 'Gandi Mock API Error : unknown case',
+  });
 };
 
-// tslint:disable-next-line: variable-name
-const handler: Handler = async (event: APIGatewayEvent, _context: Context, callback: Callback) => {
+
+const handler: Handler = async (
+  event: APIGatewayEvent,
+  // tslint:disable-next-line: variable-name
+  _context: Context,
+  callback: Callback
+) => {
   if (!process.env.EMAIL_ALIAS_DEBUG) {
     return callback(null, { statusCode: 400, body: 'No debug' });
   }
@@ -124,13 +158,19 @@ const handler: Handler = async (event: APIGatewayEvent, _context: Context, callb
   }
 
   if (!regexResults.groups?.providerName) {
-    return callback(null, { statusCode: 400, body: 'Missing provider you want to mock' });
+    return callback(null, {
+      statusCode: 400,
+      body: 'Missing provider you want to mock',
+    });
   }
 
   const { providerName, domain, mailboxId } = regexResults.groups;
 
-  if (!providers.exists(providerName)) {
-    return callback(null, { statusCode: 400, body: `Missing provider ${providerName} you want to mock` });
+  if (!exists(providerName)) {
+    return callback(null, {
+      statusCode: 400,
+      body: `Missing provider ${providerName} you want to mock`,
+    });
   }
 
   if (providerName === 'gandi') {
