@@ -6,7 +6,7 @@
     "start": "ng serve --live-reload --proxy-config proxy.config.json",
     "dev": "netlify dev",
     "prod": "ng serve --live-reload --prod --proxy-config proxy.config.json",
-    "build": "ng build --prod && npm ci --prefix netlify && npm run lambda:tsc && npm run nlb",
+    "build": "ng build --prod && npm ci --prefix netlify && npm run lambda:tsc && npm run nlb && ./cleanLambdas.sh",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
