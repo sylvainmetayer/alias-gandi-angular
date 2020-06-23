@@ -68,9 +68,12 @@ class GandiProvider implements ProviderInterface {
     const url = isDebug()
       ? `${BASE_DEBUG_URL}/gandi/${domain.getName()}`
       : `${GandiProvider.baseUrl}/email/mailboxes/${domain.getName()}`;
+    console.log(url);
     const response: HttpClientResponse = await this.httpClient.get(url);
+    console.log(response.message);
     if (response.message.statusCode === 200) {
       const stringData = JSON.parse(await response.readBody());
+      console.log(stringData);
       const mailboxes: Array<Mailbox> = [];
       stringData.forEach((mailBox: MailboxResponse) => {
         mailboxes.push(
