@@ -1,9 +1,11 @@
+import { initSentry, catchErrors } from './tools/sentry';
 import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
 import { loadEnv, getTokenFromHeaders } from './tools/functions';
 import { Token } from './tools/token';
 import * as providers from './providers';
 
 loadEnv();
+initSentry();
 
 interface AliasBody {
   domain: string;
@@ -12,7 +14,7 @@ interface AliasBody {
 }
 
 // tslint:disable-next-line: variable-name
-const handler: Handler = async (event: APIGatewayEvent,_context: Context, callback: Callback) => {
+const handler: Handler = catchErrors(async (event: APIGatewayEvent, _context: Context, callback: Callback) => {
   if (event.httpMethod !== 'POST') {
     return callback(null, { statusCode: 405, body: 'Only POST authorized' });
   }
@@ -54,15 +56,13 @@ const handler: Handler = async (event: APIGatewayEvent,_context: Context, callba
     mailboxId,
     new providers.Domain(domain)
   );
-  console.log(mailbox);
   mailbox.setAliases(aliases);
-  console.log(mailbox);
   const updated = await provider.updateAliases(mailbox);
 
   return callback(null, {
     statusCode: 200,
     body: JSON.stringify({ message: 'OK', success: updated }),
   });
-};
+});
 
 export { handler };

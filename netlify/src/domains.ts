@@ -1,12 +1,14 @@
+import { initSentry, catchErrors } from './tools/sentry';
 import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
 import { loadEnv, getTokenFromHeaders } from './tools/functions';
 import { Token } from './tools/token';
 import * as providers from './providers';
 
 loadEnv();
+initSentry();
 
 // tslint:disable-next-line: variable-name
-const handler: Handler = async (event: APIGatewayEvent, _context: Context, callback: Callback) => {
+const handler: Handler = catchErrors(async (event: APIGatewayEvent, _context: Context, callback: Callback) => {
   if (event.httpMethod !== 'GET') {
     return callback(null, { statusCode: 405, body: 'Only GET authorized' });
   }
@@ -36,6 +38,6 @@ const handler: Handler = async (event: APIGatewayEvent, _context: Context, callb
     },
     body: JSON.stringify(domains.map(domain => domain.getName()))
   });
-};
+});
 
 export { handler };

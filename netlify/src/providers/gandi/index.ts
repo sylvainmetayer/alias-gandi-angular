@@ -93,7 +93,7 @@ class GandiProvider implements ProviderInterface {
     const response = await this.httpClient.patch(url, body, {
       'Content-Type': 'application/json'
     });
-    return of(response.message.statusCode === 200).toPromise();
+    return of(response.message.statusCode === 202).toPromise();
   }
 
 }

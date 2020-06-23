@@ -9,8 +9,14 @@ const getSecret = (): string => {
 };
 
 export class TokenFactory {
-  static create(logged: boolean, providerName: string, expireIn: string = '1h') {
-    const token = sign({ logged, provider: providerName }, getSecret(), { expiresIn: expireIn });
+  static create(
+    logged: boolean,
+    providerName: string,
+    expireIn: string = '1h'
+  ) {
+    const token = sign({ logged, provider: providerName }, getSecret(), {
+      expiresIn: expireIn,
+    });
     return new Token(token);
   }
 }
@@ -20,13 +26,13 @@ export class Token {
     this.value = value;
 
     try {
-      this.data = decode(this.value as string) as JSONWebTokenData;
+      this.data = decode(this.value) as JSONWebTokenData;
     } catch (err) {
       this.data = {
         exp: 0,
         iat: 0,
         logged: false,
-        provider: 'none'
+        provider: 'none',
       };
       console.error(err);
     }
@@ -45,7 +51,7 @@ export class Token {
       console.error(errors);
       return false;
     }
-    return true;
+    return this.data.exp - this.data.iat >= 0;
   }
 
   getProviderName(): string | null {
@@ -59,8 +65,7 @@ export class Token {
     return JSON.stringify({
       access_token: this.value,
       token_type: 'JWT',
-      expires_in: this.data.exp - this.data.iat
+      expires_in: this.data.exp - this.data.iat,
     });
   }
-
 }
