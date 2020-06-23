@@ -13,7 +13,8 @@
     "deploy": "npm run build && netlify deploy",
     "nlb": "netlify functions:build --src netlify/lambdas",
     "lambda:tsc": "npm run build --prefix netlify",
-    "lambda:tsc:watch": "npm start --prefix netlify"
+    "lambda:tsc:watch": "npm start --prefix netlify",
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
   },
   "private": true,
   "dependencies": {
@@ -32,11 +33,11 @@
     "netlify-cli": "^2.40.0",
     "rxjs": "~6.5.5",
     "tslib": "^1.11.1",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "@angular/cli": "~9.1.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.0",
-    "@angular/cli": "~9.1.0",
     "@angular/compiler-cli": "~9.1.0",
     "@angular/language-service": "~9.1.0",
     "@types/jasmine": "~3.3.8",
