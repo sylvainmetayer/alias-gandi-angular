@@ -1,5 +1,5 @@
-@domain=sylvain.dev
-@mailboxId=4a366245-4ce2-44a2-982a-8f50f61bd827
+@domain=bettye.net
+@mailboxId=cfd66523-1846-4461-80cd-e3aa8be7b746
 
 // @name login
 POST {{host}}/auth
@@ -28,7 +28,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-	"domain": "sylvain.dev",
+	"domain": "{{domain}}",
 	"mailboxId": "{{mailboxId}}",
 	"aliases": []
 }
