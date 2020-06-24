@@ -2,7 +2,8 @@ import { initSentry, catchErrors } from './tools/sentry';
 import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
 import { loadEnv, getTokenFromHeaders } from './tools/functions';
 import { Token } from './tools/token';
-import { exists, load, Domain } from './providers/providers';
+import { exists, load } from './providers/providers';
+import { Domain } from './providers/entities';
 
 loadEnv();
 initSentry();
@@ -55,11 +56,13 @@ const handler: Handler = catchErrors(
 
     const mailbox = await provider.getMailbox(mailboxId, new Domain(domain));
     mailbox.setAliases(aliases);
-    const updated = await provider.updateAliases(mailbox);
+    const updatedAliases = await provider.updateAliases(mailbox);
 
     return callback(null, {
       statusCode: 200,
-      body: JSON.stringify({ message: 'OK', success: updated }),
+      body: JSON.stringify({
+        aliases: updatedAliases,
+      }),
     });
   }
 );

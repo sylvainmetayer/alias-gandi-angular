@@ -40,7 +40,19 @@ const handler: Handler = catchErrors(
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(domains.map((domain) => domain.getName())),
+      body: JSON.stringify(
+        domains.map((domain) => {
+          return {
+            name: domain.getName(),
+            mailboxes: domain.getMailboxes().map((mailbox) => {
+              return {
+                id: mailbox.getId(),
+                label: mailbox.getLabel()
+              };
+            }),
+          };
+        })
+      ),
     });
   }
 );

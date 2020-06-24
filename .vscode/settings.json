@@ -1,5 +1,12 @@
 {
     "eslint.enable": false,
     "workbench.editor.enablePreviewFromQuickOpen": false,
-    "workbench.editor.enablePreview": false
+    "workbench.editor.enablePreview": false,
+    "rest-client.environmentVariables": {
+      "dev": {
+          "host": "http://localhost:34567",
+          "password:": "test",
+          "provider": "gandi"
+      }
+  }
 }

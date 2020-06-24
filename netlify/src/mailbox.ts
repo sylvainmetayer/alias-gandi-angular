@@ -2,7 +2,8 @@ import { initSentry, catchErrors } from './tools/sentry';
 import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
 import { loadEnv, getTokenFromHeaders } from './tools/functions';
 import { Token } from './tools/token';
-import { exists, load, Domain } from './providers/providers';
+import { exists, load } from './providers/providers';
+import { Domain } from './providers/entities';
 
 loadEnv();
 initSentry();
@@ -55,7 +56,7 @@ const handler: Handler = catchErrors(
       body: JSON.stringify({
         aliases: mailbox.getAliases(),
         domain: mailbox.getDomain().getName(),
-        address: mailbox.getLabel(),
+        label: mailbox.getLabel(),
         id: mailbox.getId(),
       }),
     });
