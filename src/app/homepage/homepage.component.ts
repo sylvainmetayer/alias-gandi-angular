@@ -13,7 +13,6 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private router: Router,
     private api: AliasApiService
   ) {}
 
@@ -21,6 +20,7 @@ export class HomepageComponent implements OnInit {
   domains: Array<Domain>;
 
   ngOnInit(): void {
+    this.domains = null;
     this.loginService.isConnected.subscribe(sub => {
       this.isLogged = sub.valueOf();
       if (this.isLogged) {

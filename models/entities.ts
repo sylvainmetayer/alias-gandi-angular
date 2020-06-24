@@ -1,7 +1,7 @@
 export interface DomainInterface {
   id: string;
   name: string;
-  mailboxes: MailboxInterface[]
+  mailboxes: MailboxInterface[];
 }
 
 export interface MailboxInterface {

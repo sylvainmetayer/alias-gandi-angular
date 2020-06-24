@@ -5,7 +5,7 @@ import {
   HttpHeaders,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { DomainInterface, MailboxInterface } from './entities';
 
 export interface AliasesResponse {
@@ -23,6 +23,8 @@ export class AliasApiService {
       'Content-Type': 'application/json',
     }),
   };
+
+  private domains = {};
 
   constructor(private httpClient: HttpClient) {}
 
@@ -59,13 +61,6 @@ export class AliasApiService {
   getDomains(): Observable<Array<DomainInterface>> {
     return this.httpClient.get<Array<DomainInterface>>(
       this.BASE_URL + '/domains',
-      this.httpOptions
-    );
-  }
-
-  getMailboxesIds(domain: string): Observable<Array<string>> {
-    return this.httpClient.get<Array<string>>(
-      this.BASE_URL + '/mailboxes/' + domain,
       this.httpOptions
     );
   }
