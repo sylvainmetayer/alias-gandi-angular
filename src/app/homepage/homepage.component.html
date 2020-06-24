@@ -5,5 +5,23 @@
 </ng-container>
 
 <div *ngIf="isLogged">
-  Your are already logged in, go manage your aliases by clicking <a [routerLink]="['/domains']">here</a>.
+  <ng-container *ngFor="let domain of domains">
+    <div>
+      <h2>
+        {{ domain.getName() | uppercase }}
+      </h2>
+      <small>{{ domain.getMailboxes().length }} mailbox(es)</small>
+      <ng-container *ngIf="domain.getMailboxes().length > 0">
+        <ng-container *ngFor="let mailbox of domain.getMailboxes()">
+          <p>
+            <button
+              [routerLink]="['/mailbox', domain.getName(), mailbox.getId()]"
+            >
+              <span>{{ mailbox.getLabel() }}</span>
+            </button>
+          </p>
+        </ng-container>
+      </ng-container>
+    </div>
+  </ng-container>
 </div>

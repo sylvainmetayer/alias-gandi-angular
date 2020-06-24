@@ -1,92 +1,13 @@
 const fs = require('fs');
 import { GandiProvider } from './gandi';
-
-class Domain {
-  constructor(name: string, id?: string) {
-    if (id) {
-      this.id = id;
-    }
-    this.name = name;
-  }
-  private name: string;
-  private id?: string;
-
-  getId(): string | null {
-    if (this.id) {
-      return this.id;
-    }
-    return null;
-  }
-
-  getName() {
-    return this.name;
-  }
-}
-
-class Mailbox {
-  private domain: Domain;
-  private id: string | undefined = undefined;
-  private label: string;
-  private aliases: string[];
-
-  constructor(
-    domain: Domain,
-    label: string,
-    id?: string | undefined,
-    aliases?: string[] | undefined
-  ) {
-    this.domain = domain;
-    if (id) {
-      this.id = id;
-    }
-
-    this.label = label;
-    this.aliases = [];
-    if (aliases) {
-      this.aliases = aliases;
-    }
-  }
-
-  getDomain() {
-    return this.domain;
-  }
-
-  getLabel() {
-    return this.label;
-  }
-
-  setLabel(label: string) {
-    this.label = label;
-    return this;
-  }
-
-  getId() {
-    return this.id;
-  }
-
-  getAliases() {
-    return this.aliases;
-  }
-
-  setAliases(aliases: string[] | undefined) {
-    if (aliases) {
-      this.aliases = aliases;
-    }
-    return this;
-  }
-}
+import { Domain, Mailbox } from './entities';
 
 interface ProviderInterface {
   /**
-   * Return all domains available for given provider
+   * Return all domains available for given provider,
+   * along with it's mailbox basic details (id+name)
    */
   getDomains(): Promise<Domain[]>;
-  /**
-   * Return all mailboxes associated for a given domain.
-   * On Gandi, aliases can be empty
-   * @param domain: wanted domain
-   */
-  getMailboxes(domain: Domain): Promise<Mailbox[]>;
   /**
    * Give details for a given mailbox
    * @param id : wanted mailbox
@@ -96,8 +17,9 @@ interface ProviderInterface {
    * Apply given aliases to a mailbox and update them.
    * @param mailbox a mailbox
    * @param aliases array of aliases to apply
+   * @returns updated alias for given mailbox
    */
-  updateAliases(mailbox: Mailbox): Promise<boolean>;
+  updateAliases(mailbox: Mailbox): Promise<string[]>;
 }
 
 const exists = (provider: string | null): boolean => {
@@ -130,12 +52,4 @@ const isDebug = (): boolean => {
   );
 };
 
-export {
-  load,
-  exists,
-  ProviderInterface,
-  Domain,
-  Mailbox,
-  BASE_DEBUG_URL,
-  isDebug,
-};
+export { load, exists, ProviderInterface, BASE_DEBUG_URL, isDebug };

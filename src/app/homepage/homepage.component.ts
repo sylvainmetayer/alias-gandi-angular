@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../auth/login.service';
+import { Router } from '@angular/router';
+import { AliasApiService } from '../alias-api/alias-api.service';
+import { MailboxInterface, Domain, Mailbox } from '../alias-api/entities';
 
 @Component({
   selector: 'app-homepage',
@@ -7,14 +10,34 @@ import { LoginService } from '../auth/login.service';
   styleUrls: ['./homepage.component.scss']
 })
 export class HomepageComponent implements OnInit {
-  title = 'alias-gandi-angular';
 
-  constructor(private loginService: LoginService) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private api: AliasApiService
+  ) {}
+
   isLogged: boolean;
+  domains: Array<Domain>;
 
   ngOnInit(): void {
     this.loginService.isConnected.subscribe(sub => {
       this.isLogged = sub.valueOf();
+      if (this.isLogged) {
+        this.api.getDomains().subscribe((domains) => {
+          this.domains = domains.map((domainResponse) => {
+            const domain = new Domain(domainResponse.name, domainResponse.id);
+            domainResponse.mailboxes.forEach((element: MailboxInterface) => {
+              domain.addMailbox(
+                new Mailbox(domain, element.label, element.id, element.aliases)
+              );
+            });
+            return domain;
+          });
+        });
+      } else {
+        this.domains = [];
+      }
     });
   }
 

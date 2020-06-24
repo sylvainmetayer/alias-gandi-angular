@@ -5,12 +5,12 @@
     "tasks": [
       {
         "type": "npm",
-        "script": "nls",
+        "script": "dev",
         "problemMatcher": []
       },
       {
         "type": "npm",
-        "script": "start",
+        "script": "lambda:tsc:watch",
         "problemMatcher": []
       }
     ]

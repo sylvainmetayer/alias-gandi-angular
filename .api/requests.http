@@ -1,0 +1,34 @@
+@domain=sylvain.dev
+@mailboxId=4a366245-4ce2-44a2-982a-8f50f61bd827
+
+// @name login
+POST {{host}}/auth
+Content-Type: application/json
+
+{
+  "password": "{{password:}}",
+  "provider": "{{provider}}"
+}
+
+###
+@authToken = {{login.response.body.access_token}}
+
+GET {{host}}/domains
+Authorization: Bearer {{authToken}}
+
+###
+
+GET {{host}}/mailbox/{{domain}}/{{mailboxId}}
+Accept: application/json
+Authorization: Bearer {{authToken}}
+
+###
+POST {{host}}/aliases
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+	"domain": "sylvain.dev",
+	"mailboxId": "{{mailboxId}}",
+	"aliases": []
+}

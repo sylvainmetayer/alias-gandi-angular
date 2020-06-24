@@ -1,5 +1,10 @@
 <div class="container">
-  <button id="menuButton" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+  <button
+    id="menuButton"
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    aria-label="Menu"
+  >
     <mat-icon>more_vert</mat-icon>
   </button>
 
@@ -11,16 +16,14 @@
     <mat-icon aria-hidden="false" aria-label="Home icon">home</mat-icon>
     <span>Home</span>
   </button>
-  <button mat-menu-item [routerLink]="['/domains']">
-    <span>See domains</span>
-  </button>
-  <ng-container *ngFor="let domain of domains">
-    <button mat-menu-item [routerLink]="['/domain', domain]">
-      <span>{{ domain }} aliases</span>
-    </button>
-  </ng-container>
-
-  <button mat-menu-item mat-raised-button color="accent" color="warn" (click)="logout()" *ngIf="isLogged">
+  <button
+    mat-menu-item
+    mat-raised-button
+    color="accent"
+    color="warn"
+    (click)="logout()"
+    *ngIf="isLogged"
+  >
     <span>Logout</span>
   </button>
 </mat-menu>

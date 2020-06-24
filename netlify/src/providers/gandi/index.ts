@@ -1,14 +1,9 @@
-import {
-  ProviderInterface,
-  Domain,
-  Mailbox,
-  isDebug,
-  BASE_DEBUG_URL,
-} from '../providers';
+import { ProviderInterface, isDebug, BASE_DEBUG_URL } from '../providers';
 import { HttpClient, HttpClientResponse } from 'typed-rest-client/HttpClient';
 import { loadEnv } from '../../tools/functions';
 import { of } from 'rxjs';
 import { DomainResponse, MailboxResponse } from './interfaces';
+import { Domain, Mailbox } from '../entities';
 
 loadEnv();
 
@@ -53,9 +48,16 @@ class GandiProvider implements ProviderInterface {
         DomainResponse
       >;
       const domains: Array<Domain> = [];
-      stringData.forEach((domain: DomainResponse) => {
-        domains.push(new Domain(domain.fqdn, domain.id));
-      });
+
+      for (const domainResponse of stringData) {
+        const domain = new Domain(domainResponse.fqdn, domainResponse.id);
+        const mailboxes = await this.getMailboxes(domain);
+        mailboxes.forEach((mailbox: Mailbox) => {
+          domain.addMailbox(mailbox);
+        });
+        domains.push(domain);
+      }
+
       return of(domains).toPromise();
     }
 
@@ -64,19 +66,17 @@ class GandiProvider implements ProviderInterface {
     return of([]).toPromise();
   }
 
-  async getMailboxes(domain: Domain): Promise<Mailbox[]> {
+  private async getMailboxes(domain: Domain): Promise<Mailbox[]> {
     const url = isDebug()
       ? `${BASE_DEBUG_URL}/gandi/${domain.getName()}`
       : `${GandiProvider.baseUrl}/email/mailboxes/${domain.getName()}`;
-    console.log(url);
     const response: HttpClientResponse = await this.httpClient.get(url);
-    console.log(response.message);
     if (response.message.statusCode === 200) {
       const stringData = JSON.parse(await response.readBody());
-      console.log(stringData);
       const mailboxes: Array<Mailbox> = [];
       stringData.forEach((mailBox: MailboxResponse) => {
         mailboxes.push(
+          // At this point, Gandi API do not return the aliases
           new Mailbox(domain, mailBox.address, mailBox.id, undefined)
         );
       });
@@ -87,6 +87,7 @@ class GandiProvider implements ProviderInterface {
     console.error(error);
     return of([]).toPromise();
   }
+
   async getMailbox(id: string, domain: Domain): Promise<Mailbox> {
     const url = isDebug()
       ? `${BASE_DEBUG_URL}/gandi/${domain.getName()}/${id}`
@@ -110,7 +111,7 @@ class GandiProvider implements ProviderInterface {
     // TODO Handle error.
     throw Error('Error.');
   }
-  async updateAliases(mailbox: Mailbox): Promise<boolean> {
+  async updateAliases(mailbox: Mailbox): Promise<string[]> {
     const url = isDebug()
       ? `${BASE_DEBUG_URL}/gandi/${mailbox
           .getDomain()
@@ -122,7 +123,14 @@ class GandiProvider implements ProviderInterface {
     const response = await this.httpClient.patch(url, body, {
       'Content-Type': 'application/json',
     });
-    return of(response.message.statusCode === 202).toPromise();
+    const responseBody: MailboxResponse = JSON.parse(
+      await response.readBody()
+    ) as MailboxResponse;
+
+    if (!responseBody.aliases) {
+      responseBody.aliases = [];
+    }
+    return of(responseBody.aliases).toPromise();
   }
 }
 

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GandiApiService } from './gandi-api.service';
+import { AliasApiService } from './alias-api.service';
 
-describe('GandiApiService', () => {
+describe('AliasApiService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: GandiApiService = TestBed.inject(GandiApiService);
+    const service: AliasApiService = TestBed.inject(AliasApiService);
     expect(service).toBeTruthy();
   });
 });

@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.credentials.password, this.credentials.provider).subscribe(
       res => {
         if (res) {
-          this.routerService.navigate(['/domains']);
+          this.routerService.navigate(['/home']);
         }
       },
       err => {

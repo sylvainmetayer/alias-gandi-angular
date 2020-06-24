@@ -1,29 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './auth/login.service';
 import { Router } from '@angular/router';
-import { GandiApiService } from './gandi-api/gandi-api.service';
+import {
+  DomainInterface,
+  Domain,
+  MailboxInterface,
+  Mailbox,
+} from './alias-api/entities';
+import { AliasApiService } from './alias-api/alias-api.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-
-  constructor(private loginService: LoginService, private router: Router, private api: GandiApiService) { }
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private api: AliasApiService
+  ) {}
   isLogged: boolean;
-  domains: Array<string>;
 
   ngOnInit(): void {
-    this.loginService.isConnected.subscribe(sub => {
+    this.loginService.isConnected.subscribe((sub) => {
       this.isLogged = sub.valueOf();
-      if (this.isLogged) {
-        this.api.getDomains().subscribe((domains) => {
-          this.domains = domains;
-        });
-      } else {
-        this.domains = [];
-      }
     });
   }
 
@@ -31,7 +32,4 @@ export class AppComponent implements OnInit {
     this.loginService.logout();
     this.router.navigate(['/home']);
   }
-
-
-
 }
