@@ -31,7 +31,7 @@
     "@angular/router": "~10.1.4",
     "@angular/service-worker": "~10.1.4",
     "netlify-cli": "^2.40.0",
-    "rxjs": "~6.5.5",
+    "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2",
     "@angular/cli": "~10.1.4",
