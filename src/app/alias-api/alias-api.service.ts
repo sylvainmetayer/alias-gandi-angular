@@ -45,6 +45,7 @@ export class AliasApiService {
       .post<AliasesResponse>(this.BASE_URL + `/aliases`, body, this.httpOptions)
       .subscribe(
         (data: AliasesResponse) => {
+          console.log(data);
           observer.next(data.aliases);
         },
         (err: HttpErrorResponse) => {

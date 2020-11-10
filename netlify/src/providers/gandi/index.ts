@@ -97,6 +97,7 @@ class GandiProvider implements ProviderInterface {
       const mailboxResponse = JSON.parse(
         await response.readBody()
       ) as MailboxResponse;
+      console.warn('Mailbox answer:' + mailboxResponse.aliases?.length);
       const mailbox = new Mailbox(
         domain,
         mailboxResponse.address,
@@ -123,14 +124,21 @@ class GandiProvider implements ProviderInterface {
     const response = await this.httpClient.patch(url, body, {
       'Content-Type': 'application/json',
     });
-    const responseBody: MailboxResponse = JSON.parse(
+    const responseBody: { message: string } = JSON.parse(
       await response.readBody()
-    ) as MailboxResponse;
+    ) as { message: string };
 
-    if (!responseBody.aliases) {
-      responseBody.aliases = [];
+    if (responseBody.message !== 'Mailbox updated.') {
+      throw Error(responseBody.message);
     }
-    return of(responseBody.aliases).toPromise();
+
+    const updatedMailbox = await this.getMailbox(
+      mailbox.getId() as string,
+      mailbox.getDomain()
+    );
+
+    console.warn('return :' + updatedMailbox.getAliases().length);
+    return of(updatedMailbox.getAliases()).toPromise();
   }
 }
 
