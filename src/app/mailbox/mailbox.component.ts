@@ -48,6 +48,7 @@ export class MailboxComponent implements OnInit {
         this.mailbox.getAliases().filter((item) => item !== alias)
       )
       .subscribe((result) => {
+        console.log(result);
         if (!result) {
           alert('ERROR');
         } else {
