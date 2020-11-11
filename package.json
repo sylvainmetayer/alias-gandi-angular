@@ -47,7 +47,7 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "netlify-cli": "^2.40.0",
     "protractor": "~7.0.0",
-    "rxjs": "~6.5.5",
+    "rxjs": "~6.6.3",
     "ts-node": "~7.0.0",
     "tslib": "^2.0.0",
     "tslint": "~6.1.0",
