@@ -13,6 +13,8 @@
     </li>
   </ul>
 
+  <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
+
   <h3>{{ mailbox.getLabel() }}</h3>
   <input mapInput [(ngModel)]="this.newAlias" type="text" />
   <button mat-button (click)="add(newAlias)">Add alias</button>

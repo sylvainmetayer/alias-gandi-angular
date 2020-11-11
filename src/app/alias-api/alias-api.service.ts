@@ -5,8 +5,10 @@ import {
   HttpHeaders,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { map, shareReplay } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { DomainInterface, MailboxInterface } from './entities';
+
+export class AliasError extends Error {}
 
 export interface AliasesResponse {
   aliases: string[];
@@ -23,8 +25,6 @@ export class AliasApiService {
       'Content-Type': 'application/json',
     }),
   };
-
-  private domains = {};
 
   constructor(private httpClient: HttpClient) {}
 
@@ -45,11 +45,10 @@ export class AliasApiService {
       .post<AliasesResponse>(this.BASE_URL + `/aliases`, body, this.httpOptions)
       .subscribe(
         (data: AliasesResponse) => {
-          console.log(data);
           observer.next(data.aliases);
         },
         (err: HttpErrorResponse) => {
-          observer.next([]);
+          observer.error(new AliasError());
         },
         () => {
           observer.complete();

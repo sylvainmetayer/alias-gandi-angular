@@ -17,6 +17,8 @@ export class MailboxComponent implements OnInit {
 
   mailbox: null | Mailbox = null;
 
+  errorMessage: string = null;
+
   constructor(private api: AliasApiService, private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -47,14 +49,15 @@ export class MailboxComponent implements OnInit {
         this.mailBoxId,
         this.mailbox.getAliases().filter((item) => item !== alias)
       )
-      .subscribe((result) => {
-        console.log(result);
-        if (!result) {
-          alert('ERROR');
-        } else {
+      .subscribe(
+        (result) => {
+          this.errorMessage = null;
           this.mailbox.setAliases(result);
+        },
+        (err) => {
+          this.errorMessage = 'An error occured, please try again';
         }
-      });
+      );
   }
 
   getAliasEmail(alias: string) {
@@ -68,14 +71,16 @@ export class MailboxComponent implements OnInit {
         this.mailBoxId,
         this.mailbox.getAliases().concat([alias])
       )
-      .subscribe((result) => {
-        if (!result) {
-          alert('ERROR');
-        } else {
+      .subscribe(
+        (result) => {
+          this.errorMessage = null;
           this.mailbox.setAliases(result);
           this.newAlias = this.generateId();
+        },
+        (err) => {
+          this.errorMessage = 'An error occured, please try again';
         }
-      });
+      );
   }
 
   /**
