@@ -28,7 +28,7 @@ const handler: Handler = catchErrors(
 
     const tokenValue = getTokenFromHeaders(event.headers);
     if (!tokenValue) {
-      return callback(null, { statusCode: 401, body: 'Missing token' });
+      return callback(null, { statusCode: 401, body: 'Token is mandatory to fetch mailbox' });
     }
 
     const token = new Token(tokenValue);

@@ -24,7 +24,7 @@ const handler: Handler = catchErrors(
     const tokenValue = getTokenFromHeaders(event.headers);
 
     if (!tokenValue) {
-      return callback(undefined, { statusCode: 400, body: 'Missing token' });
+      return callback(undefined, { statusCode: 400, body: 'Token is mandatory to update aliases' });
     }
 
     const token = new Token(tokenValue);
