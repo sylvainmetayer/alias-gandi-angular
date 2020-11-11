@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './auth/login.service';
 import { Router } from '@angular/router';
-import {
-  DomainInterface,
-  Domain,
-  MailboxInterface,
-  Mailbox,
-} from './alias-api/entities';
 import { AliasApiService } from './alias-api/alias-api.service';
 
 @Component({
