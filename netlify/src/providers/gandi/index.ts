@@ -62,8 +62,7 @@ class GandiProvider implements ProviderInterface {
     }
 
     const error = await response.readBody();
-    console.error(error);
-    return of([]).toPromise();
+    throw Error(error);
   }
 
   private async getMailboxes(domain: Domain): Promise<Mailbox[]> {
@@ -84,8 +83,7 @@ class GandiProvider implements ProviderInterface {
     }
 
     const error = await response.readBody();
-    console.error(error);
-    return of([]).toPromise();
+    throw Error(error);
   }
 
   async getMailbox(id: string, domain: Domain): Promise<Mailbox> {
@@ -97,7 +95,6 @@ class GandiProvider implements ProviderInterface {
       const mailboxResponse = JSON.parse(
         await response.readBody()
       ) as MailboxResponse;
-      console.warn('Mailbox answer:' + mailboxResponse.aliases?.length);
       const mailbox = new Mailbox(
         domain,
         mailboxResponse.address,
@@ -108,10 +105,9 @@ class GandiProvider implements ProviderInterface {
     }
 
     const error = await response.readBody();
-    console.error(error);
-    // TODO Handle error.
-    throw Error('Error.');
+    throw Error(error);
   }
+
   async updateAliases(mailbox: Mailbox): Promise<string[]> {
     const url = isDebug()
       ? `${BASE_DEBUG_URL}/gandi/${mailbox
@@ -124,21 +120,29 @@ class GandiProvider implements ProviderInterface {
     const response = await this.httpClient.patch(url, body, {
       'Content-Type': 'application/json',
     });
-    const responseBody: { message: string } = JSON.parse(
-      await response.readBody()
-    ) as { message: string };
 
-    if (responseBody.message !== 'Mailbox updated.') {
-      throw Error(responseBody.message);
+    const responseString = await response.readBody();
+    const statusCode = response.message.statusCode;
+
+    const responseBody: { message?: string; errors?: [] } = JSON.parse(
+      responseString
+    ) as {
+      message: string;
+    };
+
+    if (
+      response.message.statusCode !== 202 ||
+      responseBody.message !== 'Mailbox updated.'
+    ) {
+      throw Error(
+        JSON.stringify({
+          errors: responseBody.errors,
+          statusCode,
+        })
+      );
     }
 
-    const updatedMailbox = await this.getMailbox(
-      mailbox.getId() as string,
-      mailbox.getDomain()
-    );
-
-    console.warn('return :' + updatedMailbox.getAliases().length);
-    return of(updatedMailbox.getAliases()).toPromise();
+    return of(mailbox.getAliases().sort()).toPromise();
   }
 }
 
