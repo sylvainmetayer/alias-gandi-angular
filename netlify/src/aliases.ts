@@ -1,9 +1,9 @@
-import { initSentry, catchErrors } from './tools/sentry';
-import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
-import { loadEnv, getTokenFromHeaders } from './tools/functions';
-import { Token } from './tools/token';
-import { exists, load } from './providers/providers';
+import { APIGatewayProxyEvent, Callback, Context, Handler } from 'aws-lambda';
 import { Domain } from './providers/entities';
+import { exists, load } from './providers/providers';
+import { getTokenFromHeaders, loadEnv } from './tools/functions';
+import { catchErrors, initSentry } from './tools/sentry';
+import { Token } from './tools/token';
 
 loadEnv();
 initSentry();
@@ -16,7 +16,7 @@ interface AliasBody {
 
 const handler: Handler = catchErrors(
   // tslint:disable-next-line: variable-name
-  async (event: APIGatewayEvent, _context: Context, callback: Callback) => {
+  async (event: APIGatewayProxyEvent, _context: Context, callback: Callback) => {
     if (event.httpMethod !== 'POST') {
       return callback(null, { statusCode: 405, body: 'Only POST authorized' });
     }

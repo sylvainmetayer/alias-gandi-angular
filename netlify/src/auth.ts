@@ -1,8 +1,8 @@
-import { initSentry, catchErrors } from './tools/sentry';
-import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
-import { loadEnv } from './tools/functions';
-import { TokenFactory } from './tools/token';
+import { APIGatewayProxyEvent, Callback, Context, Handler } from 'aws-lambda';
 import { exists } from './providers/providers';
+import { loadEnv } from './tools/functions';
+import { catchErrors, initSentry } from './tools/sentry';
+import { TokenFactory } from './tools/token';
 
 loadEnv();
 initSentry();
@@ -14,7 +14,7 @@ interface AuthBody {
 
 const handler: Handler = catchErrors(
   // tslint:disable-next-line: variable-name
-  async (event: APIGatewayEvent, _context: Context, callback: Callback) => {
+  async (event: APIGatewayProxyEvent, _context: Context, callback: Callback) => {
     if (event.httpMethod !== 'POST') {
       return callback(null, { statusCode: 405, body: 'Only POST authorized' });
     }

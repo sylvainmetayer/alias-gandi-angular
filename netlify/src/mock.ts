@@ -1,12 +1,12 @@
-import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda';
-import { loadEnv } from './tools/functions';
-import { exists } from './providers/providers';
+import { APIGatewayProxyEvent, Callback, Context, Handler } from 'aws-lambda';
+import { writeFileSync } from 'fs';
 import { DomainResponse, MailboxResponse } from './providers/gandi/interfaces';
+import { exists } from './providers/providers';
+import { loadEnv } from './tools/functions';
 const fakeData = require('../data') as {
   domains: Array<DomainResponse>;
   mailboxes: Array<MailboxResponse>;
 };
-import { writeFileSync } from 'fs';
 const { domains, mailboxes } = fakeData;
 
 loadEnv();
@@ -137,7 +137,7 @@ const gandiMock = (
 
 
 const handler: Handler = async (
-  event: APIGatewayEvent,
+  event: APIGatewayProxyEvent,
   // tslint:disable-next-line: variable-name
   _context: Context,
   callback: Callback

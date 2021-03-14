@@ -1,10 +1,8 @@
 import * as Sentry from '@sentry/node';
 import {
-  APIGatewayProxyEvent,
-  Handler,
   APIGatewayEvent,
-  Context,
-  Callback,
+  APIGatewayProxyEvent,
+  Callback, Context, Handler
 } from 'aws-lambda';
 
 
@@ -32,7 +30,7 @@ export async function reportError(
         const request = event.request || {};
         request.method = request.method || eventContext.httpMethod;
         request.url = request.url || eventContext.path;
-        request.headers = request.headers || eventContext.headers;
+        request.headers = request?.headers;
         event.request = request;
       }
 
